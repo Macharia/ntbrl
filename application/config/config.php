@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://'.$_SERVER['SERVER_NAME'].'/platform_rb/';
+$config['base_url']	= 'http://'.$_SERVER['SERVER_NAME'].'/ntbrl_ci/';
 
 /*
 |--------------------------------------------------------------------------
