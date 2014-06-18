@@ -13,19 +13,23 @@ class login_m extends MY_Model{
 	{
 		$sha1_password = sha1($password);
 		
-		$query_str = "SELECT id FROM user WHERE username = ? and password = ?";
+		$query_str = "SELECT id,category,name FROM user WHERE username = ? and password = ?";
 		
 		$result = $this->db->query($query_str, array($username, $sha1_password)); 
 		
 		if($result->num_rows()==1)
 		{
-			return $result->row(0)->id;
+			$results['id']=$result->row(0)->id;
+			$results['category']=$result->row(1)->category;
+			$results['name']=$result->row(2)->name;
+			
+			return $results;
 			
 		}
 		
 		else{
 			
-			return FALSE;
+			return $results="0";
 			
 		}
 		

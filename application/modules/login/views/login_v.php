@@ -19,7 +19,7 @@ table, caption, tbody, tfoot, thead, tr, th, td {
 	background: transparent;
 }
 body {
-	background: #DCDDDF ;
+	background: #ffffff ;
 	color: #000;
 	font: 14px Arial;
 	margin: 0 auto;
@@ -157,7 +157,7 @@ form:after {
 	-ms-transition: all 0.5s ease;
 	-o-transition: all 0.5s ease;
 	transition: all 0.5s ease;
-	background: #eae7e7 url(img/8bcLQqF.png) no-repeat;
+	background: #eae7e7 url('../images/8bcLQqF.png') no-repeat;
 	border: 1px solid #c8c8c8;
 	color: #777;
 	font: 13px Helvetica, Arial, sans-serif;
@@ -247,7 +247,7 @@ form:after {
 	padding: 15px 0;
 }
 .button a {
-	background: url(img/8bcLQqF.png) 0 -112px no-repeat;
+	background:url('../assets/images/8bcLQqF.png') 0 -112px no-repeat;
 	color: #7E7E7E;
 	font-size: 17px;
 	padding: 2px 0 2px 40px;
@@ -277,7 +277,44 @@ ul li{
 }
 
 
-
+.isa_info, .isa_success, .isa_warning, .isa_error {
+margin: 10px 0px;
+padding:12px;
+}
+.isa_info {
+    color: #00529B;
+    background-color: #BDE5F8;
+}
+.isa_success {
+    color: #4F8A10;
+    background-color: #DFF2BF;
+}
+.isa_warning {
+    color: #9F6000;
+    background-color: #FEEFB3;
+}
+.isa_error {
+    color: #D8000C;
+    background-color: #FFBABA;
+    font-family:"Times New Roman";
+    opacity: 0.5;
+    filter: alpha(opacity=50); // For IE
+    -moz-opacity:0.5; // For Firefox < 5.0
+    background: rgba(0, 0, 0, 0.5); // The last item is the opacity
+    box-sizing:border-box;
+    -moz-box-sizing:border-box; /* Firefox 28 and earlier*/
+    width:40%;
+    border:2px;
+    font-size: 1em;
+    border-radius:.5em;
+    border: 1px solid;
+    
+}
+.isa_info i, .isa_success i, .isa_warning i, .isa_error i {
+    margin:10px 22px;
+    font-size:2em;
+    vertical-align:middle;
+}
 
 </style>
 <!DOCTYPE html>
@@ -302,22 +339,56 @@ ul li{
 			<div  align="center" id="logo">
 			<img src="<?php echo base_url('assets/images/logo.png'); ?> 	" alt="logo" />
 			</div>
+		<hr/>
+		
+
+
+		
+		
 			
 			
 </div>
+
+<?php 
+
+	if ($this->session->flashdata('login_error', TRUE)) {
+		?>
+		 <div class="errormsgbox" style="text-align: center;margin-left: 40%">
+		
+		 		<div class="isa_error">
+   					Invalid Username/Password
+				</div>
+              <!-- echo  ' <font size="1.2">'.$errormsg.' </font>';-->
+         </div>
+	<?php					
+	}
+
+	?>
+
+
+
 <div class="container">
 	<section id="content">
 
 
-<?php echo form_open(base_url() . 'login/login' ); ?>
+
+	
+
+
+	
+	
 		
-	<form name="login"   method="POST">
+	<?php echo form_open(base_url() . 'login/login' ); ?>
 			<h1>Sign In </h1>
             
 			<div >
 				<!--<input type="text" placeholder="Username" required id="username" name="username"/>-->
 				
 				<?php echo form_input(array('id'=> 'username', 'name' =>'username'));  ?>
+				
+				
+				
+				
 			</div>
 			<div>
 				<!--<input type="password" placeholder="Password" required  id="password" name="password" />-->
@@ -326,7 +397,7 @@ ul li{
 			
 			</div>
 			
-				<li><?php echo validation_errors() ?></li>
+				<?php echo validation_errors() ?>
 			
 			
 			
@@ -339,7 +410,7 @@ ul li{
 		  </div>
 		  
 		  <?php echo form_close(); ?>
-		</form><!-- form -->
+		<!-- form -->
 		
 	</section><!-- content -->
 </div><!-- container -->
