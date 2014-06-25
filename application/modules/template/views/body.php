@@ -1,23 +1,75 @@
-	<link rel="stylesheet" href="../assets/neon//neon-x/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css"  id="style-resource-1">
-	<link rel="stylesheet" href="../assets/neon//neon-x/assets/css/font-icons/entypo/css/entypo.css"  id="style-resource-2">
-	<link rel="stylesheet" href="../assets/neon//neon-x/assets/css/font-icons/entypo/css/animation.css"  id="style-resource-3">
-	<link rel="stylesheet" href="../assets/neon//neon-x/assets/css/neon.css"  id="style-resource-5">
-	<link rel="stylesheet" href="../assets/neon//neon-x/assets/css/custom.css"  id="style-resource-6">
+	<link rel="stylesheet" href="../assets/neon/neon-x/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css"  id="style-resource-1">
+	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/font-icons/entypo/css/entypo.css"  id="style-resource-2">
+	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/font-icons/entypo/css/animation.css"  id="style-resource-3">
+	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/neon.css"  id="style-resource-5">
+	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/custom.css"  id="style-resource-6">
 
 	<script src="../assets/neon//neon-x/assets/js/jquery-1.10.2.min.js"></script>
     <script language="JavaScript" src="../assets/FusionMaps/JSClass/FusionMaps.js"></script>
     <script language="JavaScript" src="../assets/FusionCharts/JSClass/FusionCharts.js"></script>
     
 <div class="main-content" style="margin-top: 5%;margin-left: .3%;">
+	
+
 	<ol class="breadcrumb" class="navbar-fixed-top">
 		<form id="customForm"  method="GET" action="" >
-<div><strong> Date Range: </strong>&nbsp;<U><B><font color="#0000CC">Last Upload : Dec  - 2013</B></U>   |<small>  
-      <a href="?filter=7" title=" Click to Filter View to Last 3 months Statistics">   Last 6 Months </a>  | <a href="?filter=1" title=" Click to Filter View to Last 3 months Statistics">   Last 3 Months </a> 
-    |    <a onclick ="javascript:ShowHide('HiddenDiv')" href="javascript:;" title=" Click to Filter View based on Date Range you Specify"> Customize Dates</a></font></small>
+<div><strong> Date Range: </strong>&nbsp;<U><B><font color="#0000CC"><?php echo $title; ?></B></U>   |<small>  
+<?php
+
+
+   if ($filter==1)//LAST 3 MONTHS
+    {?>
+    <a href="<?php echo $D; ?>?filter=0" title=" Click to Filter View to Last Submission Statistics">   Last Upload </a> |
+    <a href="<?php echo $D; ?>?filter=7" title=" Click to Filter View to Last 6 months Statistics">   Last 6 Months </a> 
+<?php
+}
+elseif ($filter==7)//LAST 6 MONTHS
+{
+?>
+    <a href="<?php echo $D; ?>?filter=0" title=" Click to Filter View to Last Submission Statistics">   Last Upload</a>  |
+   <a href="<?php echo $D; ?>?filter=1" title=" Click to Filter View to Last 3 months Statistics">   Last 3 Months </a> 
+<?php
+}
+elseif (($filter==2) || ($_REQUEST['submitform']))//customeized
+{
+?>
+    <a href="<?php echo $D; ?>?filter=0" title=" Click to Filter View to Last Submission Statistics">   Last Upload </a>  |
+    <a href="<?php echo $D; ?>?filter=7" title=" Click to Filter View to Last 6 months Statistics">   Last 6 Months </a> |
+ <a href="<?php echo $D; ?>?filter=1" title=" Click to Filter View to Last 3 months Statistics">   Last 3 Months </a> 
+<?php
+}
+elseif (($filter==4) || ($filter==3)) //month/year filter
+{
+ ?><a href="<?php echo $D; ?>?filter=0" title=" Click to Filter View to Last Submission Statistics">   Last Upload </a> | <a href="<?php echo $D; ?>?filter=7" title=" Click to Filter View to Last 6 months Statistics">   Last 6 Months </a>  |
+ <a href="<?php echo $D; ?>?filter=1" title=" Click to Filter View to Last 3 months Statistics">   Last 3 Months </a> 
+ <?php
+    }
+    elseif (($filter==0) ||($filter=='') || ($filter==8)) //Lst submitted//all
+    {
+?>
+      <a href="<?php echo $D; ?>?filter=7" title=" Click to Filter View to Last 3 months Statistics">   Last 6 Months </a>  | <a href="<?php echo $D; ?>?filter=1" title=" Click to Filter View to Last 3 months Statistics">   Last 3 Months </a> 
+    <?php
+    }
+?>|    <a onclick ="javascript:ShowHide('HiddenDiv')" href="javascript:;" title=" Click to Filter View based on Date Range you Specify"> Customize Dates</a></font></small>
 </div>    
-<div style="margin-left: 46%;margin-top: -1%;"> | <a href=?filter=8 title='Click to Filter View cumulative data'>   All  | </a><a href=?year=2013&filter=4 title='Click to Filter View to 2013'>   2013  | </a><a href=?year=2012&filter=4 title='Click to Filter View to 2012'>   2012  | </a></div>
+<div style="margin-left: 46%;margin-top: -1%;"> | <?php
+                $year = GetMaxYear();
+                $twoless = GetMinYear();
+				echo "<a href=$D?filter=8 title='Click to Filter View cumulative data'>   All  | </a>";
+                for ($year; $year >= $twoless; $year--) {
+
+                    echo "<a href=$D?year=$year&filter=4 title='Click to Filter View to $year'>   $year  | </a>";
+                }
+                        ?>
+</div>
 <div style="margin-left:69%;margin-top: -1%">
-           <a href =?year=2014&mwezi=1&filter=3 title='Click to Filter View to Jan, 2014'>Jan</a> | <a href =?year=2014&mwezi=2&filter=3 title='Click to Filter View to Feb, 2014'>Feb </a>| <a href =?year=2014&mwezi=3&filter=3 title='Click to Filter View to Mar, 2014'>Mar</a>  | <a href =?year=2014&mwezi=4&filter=3 title='Click to Filter View to Apr, 2014'>Apr</a>  | <a href =?year=2014&mwezi=5&filter=3 title='Click to Filter View to May, 2014'>May</a>  | <a href =?year=2014&mwezi=6&filter=3 title='Click to Filter View to Jun, 2014'>Jun</a>  | <a href =?year=2014&mwezi=7&filter=3 title='Click to Filter View to Jul, 2014'>Jul</a>  | <a href =?year=2014&mwezi=8&filter=3 title='Click to Filter View to Aug, 2014'>Aug</a>  | <a href =?year=2014&mwezi=9&filter=3 title='Click to Filter View to Sept, 2014'>Sept</a>  | <a href =?year=2014&mwezi=10&filter=3 title='Click to Filter View to Oct, 2014'>Oct</a>  | <a href =?year=2014&mwezi=11&filter=3 title='Click to Filter View to Nov, 2014'>Nov</a>  | <a href =?year=2014&mwezi=12&filter=3 title='Click to Filter View to Dec, 2014'>Dec</a></div>
+           <?php $year = $_GET['year'];
+                        if ($year == "") {
+                            $year = @date('Y');
+                        }
+                        echo "<a href =$D?year=$year&mwezi=1&filter=3 title='Click to Filter View to Jan, $year'>Jan</a>";
+                    ?> | <?php echo "<a href =$D?year=$year&mwezi=2&filter=3 title='Click to Filter View to Feb, $year'>Feb </a>"; ?>| <?php echo "<a href =$D?year=$year&mwezi=3&filter=3 title='Click to Filter View to Mar, $year'>Mar</a>"; ?>  | <?php echo "<a href =$D?year=$year&mwezi=4&filter=3 title='Click to Filter View to Apr, $year'>Apr</a>"; ?>  | <?php echo "<a href =$D?year=$year&mwezi=5&filter=3 title='Click to Filter View to May, $year'>May</a>"; ?>  | <?php echo "<a href =$D?year=$year&mwezi=6&filter=3 title='Click to Filter View to Jun, $year'>Jun</a>"; ?>  | <?php echo "<a href =$D?year=$year&mwezi=7&filter=3 title='Click to Filter View to Jul, $year'>Jul</a>"; ?>  | <?php echo "<a href =$D?year=$year&mwezi=8&filter=3 title='Click to Filter View to Aug, $year'>Aug</a>"; ?>  | <?php echo "<a href =$D?year=$year&mwezi=9&filter=3 title='Click to Filter View to Sept, $year'>Sept</a>"; ?>  | <?php echo "<a href =$D?year=$year&mwezi=10&filter=3 title='Click to Filter View to Oct, $year'>Oct</a>"; ?>  | <?php echo "<a href =$D?year=$year&mwezi=11&filter=3 title='Click to Filter View to Nov, $year'>Nov</a>"; ?>  | <?php echo "<a href =$D?year=$year&mwezi=12&filter=3 title='Click to Filter View to Dec, $year'>Dec</a>"; ?>
+</div>
 
 
 <div class="mid" id="HiddenDiv" style="DISPLAY: none" >
@@ -37,6 +89,8 @@
 </form>
 </ol>
 
+
+
 <div class="row">
 	<div class="col-sm-5">
 
@@ -46,7 +100,7 @@
 					<h4>
 						National Outcome For:
 					<br />
-						<small>2012 - 2013</small>
+						<small><?php echo $minY = GetMinYear(); ?> - <?php echo $maxY = GetMaxYear(); ?></small>
 					</h4>
 				</div>
 				
@@ -59,8 +113,8 @@
 			<div class="panel-body no-padding">
 				<div id="mapdiv"> 
 				    <script type="text/javascript">
-					   var map = new FusionMaps("../assets/FusionMaps/FCMap_KenyaCounty.swf", "mapdiv", "525", "375", "0", "0");
-					   map.setDataURL("../assets/xml1/countymap.php");		   
+					   var map = new FusionMaps("../FusionMaps/FCMap_KenyaCounty.swf", "mapdiv", "525", "375", "0", "0");
+					   map.setDataURL("../xml1/countymap.php");		   
 					   map.render("mapdiv");
 					</script>
 				</div>
@@ -76,7 +130,7 @@
 					<h4>
 						National Tests Outcome
 						<br />
-						<small>Last Upload : Dec  - 2013</small>
+						<small><?php echo $title; ?></small>
 					</h4>
 				</div>
 				
@@ -89,8 +143,8 @@
 			<div class="panel-body no-padding">
 				<div id="chartnatw"  align="center"> 
 		         <script type="text/javascript">
-		          var myChart = new FusionCharts("../assets/FusionCharts/Charts/Pie2D.swf", "myChartnat", "300", "163", "0", "0");
-		          myChart.setDataXML('<chart bgcolor="#FFFFFF" showBorder="0" ><set  isSliced="1" label="MTB Pos" color="00ACE8" value="1"/><set  label="MTB Neg" color="C295F2" value="0"/><set  label="RIF Resistant" color="ADFF2F" value="0"/></chart>');  
+		          var myChart = new FusionCharts("../FusionCharts/Charts/Pie2D.swf", "myChartnat", "300", "163", "0", "0");
+		          myChart.setDataXML('<chart bgcolor="#FFFFFF" showBorder="0" ><set  isSliced="1" label="MTB Pos" color="00ACE8" value="<?php echo $tt[1]; ?>"/><set  label="MTB Neg" color="C295F2" value="<?php echo $tt[2]; ?>"/><set  label="RIF Resistant" color="ADFF2F" value="<?php echo $tt[3];?>"/></chart>');  
 		          myChart.render("chartnatw");
 		         </script> 
 		       </div>
@@ -107,7 +161,7 @@
 					<h4>
 						National Statistics From The Year:
 						<br />
-						<small>2012 - 2013</small>
+						<small><?php echo $minY = GetMinYear(); ?> - <?php echo $maxY = GetMaxYear(); ?></small>
 					</h4>
 				</div>
 				
@@ -128,14 +182,14 @@
 					</thead>
 					<tbody>
 					<tr>
-					<td style="text-align:center">182</td>
-					<td style="text-align:center">55</td>
-					<td style="text-align:center">127</td>
-					<td style="text-align:center">14</td>
+					<td style="text-align:center"><?php echo $total ;?></td>
+					<td style="text-align:center"><?php echo $mtb ;?></td>
+					<td style="text-align:center"><?php echo $notb ;?></td>
+					<td style="text-align:center"><?php echo $rif ;?></td>
 					</tr>
 					</tbody>
 				</table> <br />
-					<b>Cumulative View :  Last Upload : Dec  - 2013 </b>
+					<b>Cumulative View :  <?php echo $title; ?> </b>
 					<table class="table table-bordered">
 					<thead>
 					<tr>
@@ -147,10 +201,10 @@
 					</thead>
 					<tbody>
 					<tr>
-					<td style="text-align:center">1</td>
-					<td style="text-align:center">1</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
+					<td style="text-align:center"><?php echo $tt[0] ;?></td>
+					<td style="text-align:center"><?php echo $tt[1]  ;?></td>
+					<td style="text-align:center"><?php echo $tt[2] ;?></td>
+					<td style="text-align:center"><?php echo $tt[3] ;?></td>
 					</tr>
 					</tbody>
 			   </table>
@@ -166,7 +220,7 @@
 					<h4>
 						Tests By Age
 						<br />
-						<small>Last Upload : Dec  - 2013</small>
+						<small><?php echo $title; ?></small>
 					</h4>
 				</div>
 				
@@ -179,8 +233,8 @@
 			<div class="panel-body no-padding">
 				<div id="chartnat1"  align="center"> 
 			        <script type="text/javascript">
-				    var myChart = new FusionCharts("../assets/FusionCharts/Charts/Doughnut2D.swf", "myChartnat", "300", "132", "0", "0");
-				    myChart.setDataXML('<chart  bgcolor="FFFFFF"   showborder="0"  palette="2" animation="1"  pieSliceDepth="30" startingAngle="125"><set value="1" label="Above 15 Yrs" color="C295F2"/><set value="0" label="Btwn 5-15 Yrs" color="#ADFF2F"/><set value="0" label="Below 5 Yrs" color="00ACE8"/><styles><definition><style type="font" name="CaptionFont" size="11" color="666666" /><style type="font" name="SubCaptionFont" bold="0" /></definition><application><apply toObject="caption" styles="CaptionFont" /><apply toObject="SubCaption" styles="SubCaptionFont" /></application></styles></chart>');
+				    var myChart = new FusionCharts("../FusionCharts/Charts/Doughnut2D.swf", "myChartnat", "300", "132", "0", "0");
+				    myChart.setDataXML('<chart  bgcolor="FFFFFF"   showborder="0"  palette="2" animation="1"  pieSliceDepth="30" startingAngle="125"><set value="<?php echo $age[0]; ?>" label="Above 15 Yrs" color="C295F2"/><set value="<?php echo $age[1]; ?>" label="Btwn 5-15 Yrs" color="#ADFF2F"/><set value="<?php echo $age[2]; ?>" label="Below 5 Yrs" color="00ACE8"/><styles><definition><style type="font" name="CaptionFont" size="11" color="666666" /><style type="font" name="SubCaptionFont" bold="0" /></definition><application><apply toObject="caption" styles="CaptionFont" /><apply toObject="SubCaption" styles="SubCaptionFont" /></application></styles></chart>');
 				    myChart.render("chartnat1");
 			        </script> 
                  </div>
@@ -196,7 +250,7 @@
 					<h4>
 						Summary By Age
 						<br />
-						<small>Last Upload : Dec  - 2013</small>
+						<small><?php echo $title; ?></small>
 					</h4>
 				</div>
 				
@@ -219,21 +273,21 @@
 					<tbody>
 					<tr>
 					<td style="text-align:center"># Tests</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">1</td>
+					<td style="text-align:center"><?php echo $tnat[0] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[3] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[6] ;?></td>
 					</tr>
 					<tr>
 					<td style="text-align:center">MTB +ve</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">1</td>
+					<td style="text-align:center"><?php echo $tnat[1] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[4] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[7] ;?></td>
 					</tr>
 					<tr>
 					<td style="text-align:center">Rif Resistant</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
+					<td style="text-align:center"><?php echo $tnat[2] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[5] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[8] ;?></td>
 					</tr>
 					</tbody>
 				</table>
@@ -257,7 +311,7 @@
 					<h4>
 						Testing Trends For: 
 					<br />
-						<small>2013</small>
+						<small><?php echo $currentyear; ?></small>
 					</h4>
 				</div>
 				
@@ -270,8 +324,8 @@
 			<div class="panel-body no-padding">
 				<div id="chartdivtre"> 
 				   <script type="text/javascript">
-				      var myChart = new FusionCharts("../assets/FusionCharts/Charts/MSLine.swf", "myChartId", "520", "300", "0", "0");
-				    myChart.setDataURL("../xml1/nationaltrendline.php?mwaka=2013");
+				      var myChart = new FusionCharts("../FusionCharts/Charts/MSLine.swf", "myChartId", "520", "300", "0", "0");
+				    myChart.setDataURL("../xml1/nationaltrendline.php?mwaka=<?php echo $currentyear; ?>");
 				    myChart.render("chartdivtre");
 				    
 				   </script> 
@@ -288,7 +342,7 @@
 					<h4>
 					 Tests by Gender
 						<br />
-						<small>Last Upload : Dec  - 2013</small>
+						<small><?php echo $title; ?></small>
 					</h4>
 				</div>
 				
@@ -301,8 +355,8 @@
 			<div class="panel-body no-padding">
 				<div id="chartnat2"  align="center"> 
 			        <script type="text/javascript">
-			      	var myChart = new FusionCharts("../assets/FusionCharts/Charts/Pie3D.swf", "myChartnat", "300", "130", "0", "0");
-			    	myChart.setDataXML('<chart bgcolor="FFFFFF" showborder="0" palette="2" animation="1"  pieSliceDepth="30" startingAngle="125" ><set value="1" label="Male" color="C295F2"/><set value="0" label="Female" color="#ADFF2F"/><set value="0" label="Not specified" color="00ACE8"/><styles><definition><style type="font" name="CaptionFont" size="11" color="666666" /><style type="font" name="SubCaptionFont" bold="0" /></definition><application><apply toObject="caption" styles="CaptionFont" /><apply toObject="SubCaption" styles="SubCaptionFont" /></application></styles></chart>');
+			      	var myChart = new FusionCharts("../FusionCharts/Charts/Pie3D.swf", "myChartnat", "300", "130", "0", "0");
+			    	myChart.setDataXML('<chart bgcolor="FFFFFF" showborder="0" palette="2" animation="1"  pieSliceDepth="30" startingAngle="125" ><set value="<?php echo $gender[0]; ?>" label="Male" color="C295F2"/><set value="<?php echo $gender[1]; ?>" label="Female" color="#ADFF2F"/><set value="<?php echo $gender[2]; ?>" label="Not specified" color="00ACE8"/><styles><definition><style type="font" name="CaptionFont" size="11" color="666666" /><style type="font" name="SubCaptionFont" bold="0" /></definition><application><apply toObject="caption" styles="CaptionFont" /><apply toObject="SubCaption" styles="SubCaptionFont" /></application></styles></chart>');
 			    	myChart.render("chartnat2");
 			        </script> 
 			    </div>
@@ -318,7 +372,7 @@
 					<h4>
 						Summary By Gender
 						<br />
-						<small>Last Upload : Dec  - 2013</small>
+						<small><?php echo $title; ?></small>
 					</h4>
 				</div>
 				
@@ -341,21 +395,21 @@
 					<tbody>
 					<tr>
 					<td style="text-align:center"># Tests</td>
-					<td style="text-align:center">1</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
+					<td style="text-align:center"><?php echo $tnat[9] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[12];?></td>
+					<td style="text-align:center"><?php echo $tnat[15] ;?></td>
 					</tr>
 					<tr>
 					<td style="text-align:center">MTB +ve</td>
-					<td style="text-align:center">1</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
+					<td style="text-align:center"><?php echo $tnat[10] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[13] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[16] ;?></td>
 					</tr>
 					<tr>
 					<td style="text-align:center">Rif Resistant</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
+					<td style="text-align:center"><?php echo $tnat[11] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[14] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[17] ;?></td>
 					</tr>
 					</tbody>
 					</table> 
@@ -370,7 +424,7 @@
 					<h4>
 						Tests By Hiv Status
 						<br />
-						<small>Last Upload : Dec  - 2013</small>
+						<small><?php echo $title; ?></small>
 					</h4>
 				</div>
 				
@@ -383,8 +437,8 @@
 			<div class="panel-body no-padding">
 				<div id="chartnat3"  align="center"> 
          			<script type="text/javascript">
-      				var myChart = new FusionCharts("../assets/FusionCharts/Charts/Pie2D.swf", "myChartnat", "300", "132", "0", "0");
-				    myChart.setDataXML('<chart  bgcolor="FFFFFF"   showborder="0"  palette="2" animation="1"   pieSliceDepth="30" startingAngle="125"> <set value="0" label="Positive" color="C295F2"/><set value="1" label="Negative" color="#ADFF2F"/><set value="0" label="Not specified" color="00ACE8"/><styles><definition><style type="font" name="CaptionFont" size="11" color="666666" /><style type="font" name="SubCaptionFont" bold="0" /></definition><application><apply toObject="caption" styles="CaptionFont" /><apply toObject="SubCaption" styles="SubCaptionFont" /></application></styles></chart>');
+      				var myChart = new FusionCharts("../FusionCharts/Charts/Pie2D.swf", "myChartnat", "300", "132", "0", "0");
+				    myChart.setDataXML('<chart  bgcolor="FFFFFF"   showborder="0"  palette="2" animation="1"   pieSliceDepth="30" startingAngle="125"> <set value="<?php echo $hstatus[0]; ?>" label="Positive" color="C295F2"/><set value="<?php echo $hstatus[1]; ?>" label="Negative" color="#ADFF2F"/><set value="<?php echo $hstatus[2]; ?>" label="Not specified" color="00ACE8"/><styles><definition><style type="font" name="CaptionFont" size="11" color="666666" /><style type="font" name="SubCaptionFont" bold="0" /></definition><application><apply toObject="caption" styles="CaptionFont" /><apply toObject="SubCaption" styles="SubCaptionFont" /></application></styles></chart>');
 				    myChart.render("chartnat3");
 				    
 				   </script> 
@@ -401,7 +455,7 @@
 					<h4>
 						Summary By Hiv Status
 						<br />
-						<small>Last Upload : Dec  - 2013</small>
+						<small><?php echo $title; ?></small>
 					</h4>
 				</div>
 				
@@ -424,21 +478,21 @@
 					<tbody>
 					<tr>
 					<td style="text-align:center"># Tests</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">1</td>
-					<td style="text-align:center">0</td>
+					<td style="text-align:center"><?php echo $tnat[18] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[21] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[24] ;?></td>
 					</tr>
 					<tr>
 					<td style="text-align:center">MTB +ve</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">1</td>
-					<td style="text-align:center">0</td>
+					<td style="text-align:center"><?php echo $tnat[19] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[22] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[25] ;?></td>
 					</tr>
 					<tr>
 					<td style="text-align:center">Rif Resistant</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
+					<td style="text-align:center"><?php echo $tnat[20] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[23];?></td>
+					<td style="text-align:center"><?php echo $tnat[26] ;?></td>
 					</tr>
 					</tbody>
 				</table>
@@ -460,7 +514,7 @@
 					<h4>
 						Outcome By Patient Categories
 						<br />
-						<small>Last Upload : Dec  - 2013</small>
+						<small><?php echo $title; ?></small>
 					</h4>
 				</div>
 				
@@ -472,8 +526,8 @@
 				
 			<div id="chartp"  align="center"> 
               <script type="text/javascript">
-		      var myChart = new FusionCharts("../assets/FusionCharts/Charts/StackedColumn2D.swf", "myChartnat", "480", "300", "0", "0");
-		      myChart.setDataXML('<chart palette="2" yAxisName="# of Patients"  showLabels="1" showvalues="0"  numberPrefix="" showSum="0" decimals="0" useRoundEdges="1" legendBorderAlpha="0" bgcolor="FFFFFF" showborder="0"><categories><category label="sputum smear-positive relapse" /><category label="sputum smear-negative relapse" /><category label="Return after defaulting" /><category label="Failure 1-st line treatment" /><category label="Failure re-treatment" /><category label="New Patients" /><category label="New case PTB" /><category label="MDR TB Contact" /><category label="Refugees SS+ve" /><category label="HCWs" /><category label="Hiv(+) & Smear(-)" /></categories><dataset seriesName="MTB Pos" color="AFD8F8" showValues="0"><set value="0" /><set value="0" /><set value="1" /><set value="0" /><set value="0" /><set value="0" /><set value="0" /><set value="0" /><set value="0" /><set value="0" /><set value="0" /></dataset><dataset seriesName="Rif Resistant" color="F6BD0F" showValues="0"><set value="0" /><set value="0" /><set value="0" /><set value="0" /><set value="0" /><set value="0" /><set value="0" /><set value="0" /><set value="0" /><set value="0" /><set value="0" /></dataset></chart>');
+		      var myChart = new FusionCharts("../FusionCharts/Charts/StackedColumn2D.swf", "myChartnat", "480", "300", "0", "0");
+		      myChart.setDataXML('<chart palette="2" yAxisName="# of Patients"  showLabels="1" showvalues="0"  numberPrefix="" showSum="0" decimals="0" useRoundEdges="1" legendBorderAlpha="0" bgcolor="FFFFFF" showborder="0"><categories><category label="sputum smear-positive relapse" /><category label="sputum smear-negative relapse" /><category label="Return after defaulting" /><category label="Failure 1-st line treatment" /><category label="Failure re-treatment" /><category label="New Patients" /><category label="New case PTB" /><category label="MDR TB Contact" /><category label="Refugees SS+ve" /><category label="HCWs" /><category label="Hiv(+) & Smear(-)" /></categories><dataset seriesName="MTB Pos" color="AFD8F8" showValues="0"><set value="<?php echo $ptype[0]; ?>" /><set value="<?php echo $ptype[2]; ?>" /><set value="<?php echo $ptype[4]; ?>" /><set value="<?php echo $ptype[6]; ?>" /><set value="<?php echo $ptype[8]; ?>" /><set value="<?php echo $ptype[10]; ?>" /><set value="<?php echo $ptype[12]; ?>" /><set value="<?php echo $ptype[14]; ?>" /><set value="<?php echo $ptype[16]; ?>" /><set value="<?php echo $ptype[18]; ?>" /><set value="<?php echo $ptype[20]; ?>" /></dataset><dataset seriesName="Rif Resistant" color="F6BD0F" showValues="0"><set value="<?php echo $ptype[1] ; ?>" /><set value="<?php echo $ptype[3] ; ?>" /><set value="<?php echo $ptype[5] ; ?>" /><set value="<?php echo $ptype[7] ; ?>" /><set value="<?php echo $ptype[9] ; ?>" /><set value="<?php echo $ptype[11] ; ?>" /><set value="<?php echo $ptype[13] ; ?>" /><set value="<?php echo $ptype[15] ; ?>" /><set value="<?php echo $ptype[17] ; ?>" /><set value="<?php echo $ptype[19] ; ?>" /><set value="<?php echo $ptype[21] ; ?>" /></dataset></chart>');
 		      myChart.render("chartp");
 		      </script> 
 			  </div>
@@ -490,7 +544,7 @@
 					<h4>
 						Summary By patient Categories
 						<br />
-						<small>Last Upload : Dec  - 2013</small>
+						<small><?php echo $title; ?></small>
 					</h4>
 				</div>
 				
@@ -520,45 +574,45 @@
 					<tbody>
 					<tr>
 					<td style="text-align:center"> Tests</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">1</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
+					<td style="text-align:center"><?php echo $tnat[27] ; ?></td>
+					<td style="text-align:center"><?php echo $tnat[30] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[33] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[36] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[39] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[42] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[45] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[48] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[51] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[54] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[57] ;?></td>
 					</tr>
 					<tr>
 					<td style="text-align:center">MTB +ve</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">1</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
+					<td style="text-align:center"><?php echo $tnat[28] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[31] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[34] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[37] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[40] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[43] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[46] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[49] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[52] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[55] ;?></td>
+					<td style="text-align:center"><?php echo $tnat[58] ;?></td>
 					</tr>
 					<tr>
 					<td style="text-align:center">Rif Resistant</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
-					<td style="text-align:center">0</td>
+					<td style="text-align:center"><?php echo $tnat[29] ; ?></td>
+					<td style="text-align:center"><?php echo $tnat[32] ; ?></td>
+					<td style="text-align:center"><?php echo $tnat[35] ; ?></td>
+					<td style="text-align:center"><?php echo $tnat[38] ; ?></td>
+					<td style="text-align:center"><?php echo $tnat[41] ; ?></td>
+					<td style="text-align:center"><?php echo $tnat[44] ; ?></td>
+					<td style="text-align:center"><?php echo $tnat[47] ; ?></td>
+					<td style="text-align:center"><?php echo $tnat[50] ; ?></td>
+					<td style="text-align:center"><?php echo $tnat[53] ; ?></td>
+					<td style="text-align:center"><?php echo $tnat[56] ; ?></td>
+					<td style="text-align:center"><?php echo $tnat[59] ; ?></td>
 					</tr>
 					</tbody>
 					</table>
@@ -567,8 +621,6 @@
 		
 	</div>
 
-</div>
-	
 </div>
 	
 	

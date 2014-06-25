@@ -157,7 +157,7 @@ form:after {
 	-ms-transition: all 0.5s ease;
 	-o-transition: all 0.5s ease;
 	transition: all 0.5s ease;
-	background: #eae7e7 url('../images/8bcLQqF.png') no-repeat;
+	background: #eae7e7 url('assets/images/8bcLQqF.png') no-repeat;
 	border: 1px solid #c8c8c8;
 	color: #777;
 	font: 13px Helvetica, Arial, sans-serif;
@@ -247,7 +247,7 @@ form:after {
 	padding: 15px 0;
 }
 .button a {
-	background:url('../assets/images/8bcLQqF.png') 0 -112px no-repeat;
+	background:url('assets/images/8bcLQqF.png') 0 -112px no-repeat;
 	color: #7E7E7E;
 	font-size: 17px;
 	padding: 2px 0 2px 40px;
@@ -384,7 +384,12 @@ padding:12px;
 			<div >
 				<!--<input type="text" placeholder="Username" required id="username" name="username"/>-->
 				
-				<?php echo form_input(array('id'=> 'username', 'name' =>'username'));  ?>
+				<?php echo form_input(array('id'=> 'username',
+				 'name' =>'username',
+				 'placeholder' => 'Username',
+				 'onclick' => 'if(this.value == \'yourplaceholder\') this.value = \'\'', //IE6 IE7 IE8
+                 'onblur' => 'if(this.value == \'\') this.value = \'yourplaceholder\''       //IE6 IE7 IE8
+				 ));  ?>
 				
 				
 				
@@ -392,7 +397,12 @@ padding:12px;
 			</div>
 			<div>
 				<!--<input type="password" placeholder="Password" required  id="password" name="password" />-->
-				<?php echo form_password(array('id'=> 'password', 'name' =>'password'));  ?>
+				<?php echo form_password(array('id'=> 'password',
+				 'name' =>'password',
+				 'placeholder' => 'Password',
+				 'onclick' => 'if(this.value == \'yourplaceholder\') this.value = \'\'', //IE6 IE7 IE8
+                 'onblur' => 'if(this.value == \'\') this.value = \'yourplaceholder\''       //IE6 IE7 IE8
+				 ));  ?>
 			
 			
 			</div>

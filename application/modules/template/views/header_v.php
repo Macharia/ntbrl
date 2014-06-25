@@ -38,8 +38,8 @@
   <button class="btn dropdown-toggle btn-blue" data-toggle="dropdown"><?php echo  $this->session->userdata('name');?> <span class="caret"></span></button>
   <ul class="dropdown-menu">
     <li><a href="changePass.php" id="reset">Change Password</a></li>
-
-    <li><a href="../logout.php" id="logout">Logout</a></li>
+    
+    <li><a href='<?php echo base_url(). "logout/logout"; ?> 'id="logout">Logout</a></li>
     
     
   </ul>
@@ -71,11 +71,11 @@
 		<!-- main menu -->
 <ul class="navbar-nav">
 	<li>
-		<a href="../pm/overall"><i class="entypo-home"></i><span>Home</span></a>
+		<a href="<?php echo base_url('pm/overall'); ?>"><i class="entypo-home"></i><span>Home</span></a>
 	</li>
 
 	<li>
-		<a href="fmap.php"><i class="entypo-layout"></i><span>County View</span></a>
+		<a href='<?php echo base_url(). "pm/countyfmap"; ?> '><i class="entypo-layout"></i><span>County View</span></a>
 	</li>
 
 	<!--<li>
@@ -83,25 +83,25 @@
 	</li> -->
 
 	<li>
-		<a href="dlt_facility.php"><i class="entypo-menu"></i><span>Facilities</span></a>
+		<a href='<?php echo base_url(). "pm/facility"; ?> '><i class="entypo-menu"></i><span>Facilities</span></a>
 	</li>
-   <?php if ($category!=6) {?>
+   <?php //if ($category!=6) {?>
 	<li>
 		<a href=""><i class="entypo-bag"></i><span>Allocation</span></a>
 		
 		<ul>
 		<li>
-			<a href="allocation.php"><span>View Allocation</span><span class="badge badge-success">3</span></a>
+			<a href='<?php echo base_url(). "pm/allocation"; ?> '><span>View Allocation</span><span class="badge badge-success">3</span></a>
 		</li>
 		<li>
-			<a href="allocationsummary.php"><span>Allocation Summary</span></a>
+			<a href='<?php echo base_url(). "pm/allo_summ"; ?> '><span>Allocation Summary</span></a>
 	    </li>
 		</ul>
 
     </li>
-    <?php } ?>
+    <?php //} ?>
     <li>
-		<a href="refmap.php"><i class="entypo-newspaper"></i><span>Referral Mapping</span></a>
+		<a href="<?php echo base_url('pm/referral'); ?>"><i class="entypo-newspaper"></i><span>Referral Mapping</span></a>
 	</li>
 </ul>
 						
@@ -111,7 +111,7 @@
 			
 			
 			<li style="float: right">
-				<a href="../logout.php">
+				<a href='<?php echo base_url(). "logout/logout"; ?> '>
 					Log Out <i class="entypo-logout right"></i>
 				</a>
 			</li>
