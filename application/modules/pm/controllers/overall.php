@@ -12,6 +12,7 @@ class overall extends MY_Controller {
 		//$data['title'] = "Dashboard | Program Manager";
 		//$data['content'] = "overall_v";
         //$data['footer'] = "footer_v";
+        //exit;
         $this->load->model('overall_m');
        // $this->body_var($mwaka='',$mwezi='' );
 		
@@ -19,9 +20,10 @@ class overall extends MY_Controller {
 		$data['user'] = $this->session->userdata('user');
         $data['name'] = $this->session->userdata('name');
         $overall_data = $this->overall_m->overall_logged();
-        $data['filter']=null;
-        $data['title']=null;
-        $data['submitform']=null;
+        //$data['filter']=null;
+        //$data['title']=null;
+        //$data['submitform']=null;
+        //$data['D']=null;
 
         $data['overall_data'] = $overall_data;
 		//$this->load->view('overall_v');
@@ -35,6 +37,11 @@ class overall extends MY_Controller {
 
     public function body_var($mwaka=null,$mwezi=null,$filter=null)
     {
+
+
+
+
+
 
        // $mwaka = $_GET['year'];
         //$mwezi = $_GET['mwezi'];
@@ -184,6 +191,10 @@ else
             $filter = 0;
             $colspan = 6;
             $mapwidth = 540;
+
+
+            $year = GetMaxYear();
+            $twoless = GetMinYear();
 
             $currentmonth = GetMaxMonthbasedonMaxYear($samp);
             $displaymonth = GetMonthName($currentmonth);

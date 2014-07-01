@@ -30,7 +30,7 @@ elseif ($filter==7)//LAST 6 MONTHS
    <a href="<?php echo $D; ?>?filter=1" title=" Click to Filter View to Last 3 months Statistics">   Last 3 Months </a> 
 <?php
 }
-elseif (($filter==2) || ($_REQUEST['submitform']))//customeized
+elseif (($filter==2)) //customeized
 {
 ?>
     <a href="<?php echo $D; ?>?filter=0" title=" Click to Filter View to Last Submission Statistics">   Last Upload </a>  |
@@ -52,10 +52,10 @@ elseif (($filter==4) || ($filter==3)) //month/year filter
     }
 ?>|    <a onclick ="javascript:ShowHide('HiddenDiv')" href="javascript:;" title=" Click to Filter View based on Date Range you Specify"> Customize Dates</a></font></small>
 </div>    
-<div style="margin-left: 46%;margin-top: -1%;"> | <?php
-                $year = GetMaxYear();
-                $twoless = GetMinYear();
+<div style="margin-left: 46%;margin-top: -1%;">
+              
 				echo "<a href=$D?filter=8 title='Click to Filter View cumulative data'>   All  | </a>";
+                <?php
                 for ($year; $year >= $twoless; $year--) {
 
                     echo "<a href=$D?year=$year&filter=4 title='Click to Filter View to $year'>   $year  | </a>";

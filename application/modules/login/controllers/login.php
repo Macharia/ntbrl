@@ -97,7 +97,7 @@ class login extends MY_Controller {
 						
 
 						else if ($login_data['category']==4)
-						{
+						{ 
 						//redirects to allocated user group
 						redirect('pm/overall');
 							

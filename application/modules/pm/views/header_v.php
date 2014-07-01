@@ -246,7 +246,7 @@ function toggle() {
 } 
 </script>
      <script language="JavaScript">
-function ShowHide(divId)
+/*function ShowHide(divId)
 {
 if(document.getElementById(divId).style.display == 'none')
 {
@@ -256,6 +256,6 @@ else
 {
 document.getElementById(divId).style.display = 'none';
 }
-}
+}*/
 </script>
  

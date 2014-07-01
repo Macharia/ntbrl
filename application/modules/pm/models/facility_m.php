@@ -30,6 +30,11 @@ AND `countys`.`province` = `provinces`.`ID`";
 
 	return $result = $this->db->query($query_str)->result_array();
 
+
+
+
+			
+
 	//echo "<pre/>";
 	//print_r($result);
 

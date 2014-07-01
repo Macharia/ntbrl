@@ -247,7 +247,7 @@ function toggle() {
 } 
 
 
-function ShowHide(divId)
+/*function ShowHide(divId)
 {
 if(document.getElementById(divId).style.display == 'none')
 {
@@ -258,17 +258,17 @@ else
 document.getElementById(divId).style.display = 'none';
 }
 }
-
+*/
 
 
 
 
 $(document).ready(function(){
 
-ShowHide();
-toggle();
-reportErrors();
-validate();
+//ShowHide();
+//toggle();
+//reportErrors();
+//validate();
 
 
 

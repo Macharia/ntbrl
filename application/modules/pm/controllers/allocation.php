@@ -44,4 +44,54 @@ class allocation extends MY_Controller {
 		}
 
 
+
+		public function get_allocation_json_()
+		{
+			$req = R::getAll("SELECT ID as a,name as b from countys");
+
+			$data = array();
+			$recordsTotal = 0;
+
+			foreach ($req as $key => $value) {
+				# code...
+
+
+
+			$data[] = array(
+
+
+				$value["a"],
+				$value["b"],
+				
+
+
+			);	
+
+			$recordsTotal++;
+
+
+
+			}
+
+			$json_req = array(
+
+				"sEcho"    =>1,
+				"iTotalRecords" =>$recordsTotal,
+				"iTotalDisplayRecords" =>$recordsTotal,
+				"aaData" => $data
+			);
+
+			echo json_encode($json_req);
+
+
+
+
+
+
+		}
+
+
+
+
+
 	}

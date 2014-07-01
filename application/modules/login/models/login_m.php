@@ -18,7 +18,7 @@ class login_m extends MY_Model{
 		$result = $this->db->query($query_str, array($username, $sha1_password)); 
 		
 		if($result->num_rows()==1)
-		{
+		{ 
 			$results['id']=$result->row(0)->id;
 			$results['category']=$result->row(1)->category;
 			$results['name']=$result->row(2)->name;

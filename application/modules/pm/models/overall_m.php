@@ -985,6 +985,41 @@ return $returnable;
 }
 
 
+public function GetMaxYear()
+{
+	$getmaxyear = "SELECT max(year(End_Time)) AS maximumyear FROM sample1";
+	//$maxyear = mysql_query($getmaxyear) or die(mysql_error());
+	//$year = mysql_fetch_array($maxyear);
+	
+	$result = $this->db->query($getmaxyear);
+	$showyear = $result->result_array();
+
+	$returnable = array('maximumyear'=>$showyear);
+
+
+
+	//showyear = $year['maximumyear'];$
+	
+	if ($showyear !='')
+	{
+	}
+	else
+	{
+	$showyear=date('Y');
+	}
+
+				
+	
+return $returnable;
+
+
+
+
+}
+
+//echo "<pre/>";
+//print_r($result);
+//die();
 
 
 

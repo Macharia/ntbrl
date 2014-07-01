@@ -1,61 +1,4 @@
-<?php
-
-if(!$numrows){
-$dyn_table2 .= '<tr bgcolor="#CCC"><th><small>MFL Code</small></th><th><small>Facility</small></th><th><small>District</small></th><th><small>County</small></th><th><small>Province</small></th>';
-$dyn_table2 .= '<tr><td colspan="4" align="center"> <small>No Data to Display </small></td></tr>';
-}
-else{
-$i=0;
-$dyn_table2 = '<table class="table table-bordered datatable" id="table-1">'; 
- 	
-while($row=mysql_fetch_assoc($query)){
-	
-
-$code=$row['CODE'];	
-$facility=$row['FACILITY'];	
-$district=$row['DISTRICT'];
-$county=$row['COUNTY'];
-$province=$row['PROVINCE'];
-	
-	
-if ($i % 10000 == 0){ 
-$dyn_table2 .= ' <thead><tr class="odd gradeX"><th><small>MFL Code</small></th><th><small>Facility</small></th><th><small>District</small></th><th><small>County</small></th><th><small>Province</small></th></thead> <tbody>';
-
-          
-		  $dyn_table2 .= '<td align="left"><small>' .$code . '</small></td>';
-		  $dyn_table2 .= '<td align="left" ><small>' . $facility . '</small></td>';
-		  $dyn_table2 .= '<td align="left" ><small>' . $district . '</small></td>';
-		  $dyn_table2 .= '<td align="left" ><small>' . $county . '</small></td>';
-		  $dyn_table2 .= '<td align="left" ><small>' .$province. '</small></td></tr>';
-		    		   
-		  
-  
-} 
-else{
-	     
-		  $dyn_table2 .= '<td align="left"><small>' .$code . '</small></td>';
-		  $dyn_table2 .= '<td align="left" ><small>' . $facility . '</small></td>';
-		  $dyn_table2 .= '<td align="left" ><small>' . $district . '</small></td>';
-		  $dyn_table2 .= '<td align="left" ><small>' . $county . '</small></td>';
-		  $dyn_table2 .= '<td align="left" ><small>' .$province. '</small></td></tr>';
-		           	
-} 
-       
-	$i++;	
-		
-}	
-	
-$dyn_table2 .= '</tbody></table>';	
-	
-}
-
-
-?>
-
-
-
-
-<link rel="stylesheet" href="../assets/neon/neon-x/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css"  id="style-resource-1">
+	<link rel="stylesheet" href="../assets/neon/neon-x/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css"  id="style-resource-1">
 	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/font-icons/entypo/css/entypo.css"  id="style-resource-2">
 	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/font-icons/entypo/css/animation.css"  id="style-resource-3">
 	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/neon.css"  id="style-resource-5">
@@ -93,9 +36,62 @@ $dyn_table2 .= '</tbody></table>';
 			</div>
 			
 			<div class="panel-body">
-				<?php
-		echo $dyn_table2;
-		?>
+				
+
+
+			<script>
+
+
+				$(document).ready(function() {
+    			$('#table-1').dataTable( {
+     			   "processing": true,
+      				  "serverSide": true,
+        				"sAjaxSource": "facility/get_facility_json_"
+    				} );
+				} );
+
+
+
+
+
+
+
+			</script>
+				<!--table-->			
+
+				
+
+
+
+				<tr bgcolor="#CCC"><th><small>MFL Code</small></th><th><small>Facility</small></th><th><small>District</small></th><th><small>County</small></th><th><small>Province</small></th>
+				<tr><td colspan="4" align="center"> <small>No Data to Display </small></td></tr>
+				<table class="table table-bordered datatable" id="table-1">
+				<thead>
+				
+				<tr class="odd gradeX"><th><small>MFL Code</small></th><th><small>Facility</small></th><th><small>District</small></th><th><small>County</small></th><th><small>Province</small></th></thead> <tbody>
+
+
+				<td align="left"><small></small></td>
+				<td align="left" ><small></small></td>
+				<td align="left" ><small></small></td>
+				<td align="left" ><small></small></td>
+				<td align="left" ><small></small></td></tr>
+
+
+				
+				
+
+				</tbody></table>
+
+
+
+			
+
+
+
+
+
+
 
 			<script type="text/javascript">
 				jQuery(document).ready(function($)
