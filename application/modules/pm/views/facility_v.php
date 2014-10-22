@@ -47,6 +47,7 @@
      			   "processing": true,
       				  "serverSide": true,
         				"sAjaxSource": "facility/get_facility_json_"
+        					
     				} );
 				} );
 
@@ -63,7 +64,7 @@
 
 
 
-				<tr bgcolor="#CCC"><th><small>MFL Code</small></th><th><small>Facility</small></th><th><small>District</small></th><th><small>County</small></th><th><small>Province</small></th>
+				
 				<tr><td colspan="4" align="center"> <small>No Data to Display </small></td></tr>
 				<table class="table table-bordered datatable" id="table-1">
 				<thead>
@@ -83,30 +84,6 @@
 
 				</tbody></table>
 
-
-
-			
-
-
-
-
-
-
-
-			<script type="text/javascript">
-				jQuery(document).ready(function($)
-				{
-					$("#table-1").dataTable({
-						"sPaginationType": "bootstrap",
-						"aLengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
-						"bStateSave": true
-					});
-					
-					$(".dataTables_wrapper select").select2({
-						minimumResultsForSearch: -1
-					});
-				});
-			</script>
 			</div>
 		
 		</div>

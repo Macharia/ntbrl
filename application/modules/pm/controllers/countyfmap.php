@@ -42,4 +42,63 @@ class countyfmap extends MY_Controller {
 		}
 
 
+		public function get_countyfmap_json_()
+		{
+
+
+			$req = R::getAll("SELECT `countys`.`ID` AS ID,
+									 `countys`.`name` AS name 
+			 				FROM `countys`
+			  				ORDER BY `countys`.`ID` ASC");
+
+			$data = array();
+			$recordsTotal = 0;
+
+			foreach ($req as $key => $value)
+			# code...
+			{
+				$id = $value['ID'];
+				$name = $value['name'];
+				$link = '<a href="'.base_url().'pm/countyview?id='.$id.'">';
+
+
+				
+				$data[] = array(
+
+
+				'<img src="../assets/jquery-ui-1.10.3/demos/DataTables/examples/examples_support/details_open.png">',
+				$value["ID"],
+				$value["name"]." "."County",
+				$link.'<img src="../assets/images/icons/view.png" height="20" alt="View Details" title="View Details"/>'
+
+				);
+
+
+
+				$recordsTotal++;
+
+			}
+
+			$json_req = array(
+
+				"sEcho"    =>1,
+				"iTotalRecords" =>$recordsTotal,
+				"iTotalDisplayRecords" =>$recordsTotal,
+				"aaData" => $data
+			);
+
+			echo json_encode($json_req);
+
+
+
+
+		}
+
+
+
+
+
+
+
+
 	}

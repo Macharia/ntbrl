@@ -29,10 +29,10 @@ class allo_summ_m extends MY_Model{
 
 
 
-			echo "<pre/>";
-			print_r($result);
+			//echo "<pre/>";
+			//print_r($result);
 
-			die();
+			//die();
 
 
 

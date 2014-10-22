@@ -16,10 +16,9 @@
 	<link rel="stylesheet" href="../admin/neon/neon-x/assets/css/font-icons/entypo/css/animation.css"  id="style-resource-3">
 	<link rel="stylesheet" href="../admin/neon/neon-x/assets/css/neon.css"  id="style-resource-5">
 	<link rel="stylesheet" href="../admin/neon/neon-x/assets/css/custom.css"  id="style-resource-6">
-
 	<script src="../admin/neon/neon-x/assets/js/jquery-1.10.2.min.js"></script>
-    <script language="JavaScript" src="../FusionMaps/JSClass/FusionMaps.js"></script>
-    <script language="JavaScript" src="../FusionCharts/JSClass/FusionCharts.js"></script>
+   
+
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
 	  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>

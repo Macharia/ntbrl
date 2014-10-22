@@ -11,15 +11,14 @@
 	<title>DLTLD</title>
     <link rel="icon" href="<?php echo base_url('assets/images/favicon.ico'); ?>" type="image/x-icon" />
 
-	<link rel="stylesheet" href="../assets/neon/neon-x/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css"  id="style-resource-1">
-	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/font-icons/entypo/css/entypo.css"  id="style-resource-2">
-	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/font-icons/entypo/css/animation.css"  id="style-resource-3">
-	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/neon.css"  id="style-resource-5">
-	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/custom.css"  id="style-resource-6">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css"  id="style-resource-1">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/neon/neon-x/assets/css/font-icons/entypo/css/entypo.css"  id="style-resource-2">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/neon/neon-x/assets/css/font-icons/entypo/css/animation.css"  id="style-resource-3">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/neon/neon-x/assets/css/neon.css"  id="style-resource-5">
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/neon/neon-x/assets/css/custom.css"  id="style-resource-6">
 
-	<script src="../assets/neon/neon-x/assets/js/jquery-1.10.2.min.js"></script>
-    <script language="JavaScript" src="../assets/FusionMaps/JSClass/FusionMaps.js"></script>
-    <script language="JavaScript" src="../assets/FusionCharts/JSClass/FusionCharts.js"></script>
+	<script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/jquery-1.10.2.min.js"></script>
+    <script language="JavaScript" src="<?php echo base_url(); ?>assets/FusionCharts/JSClass/FusionCharts.js"></script>
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 	<!--[if lt IE 9]>
 	  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
@@ -79,7 +78,7 @@
 	</li>
 
 	<!--<li>
-		<a href="../assessmentSummary/section2.php"><i class="entypo-newspaper"></i><span>Assessment</span></a>
+		<a href="<?php echo base_url(); ?>assessmentSummary/section2.php"><i class="entypo-newspaper"></i><span>Assessment</span></a>
 	</li> -->
 
 	<li>
@@ -102,6 +101,10 @@
     <?php //} ?>
     <li>
 		<a href="<?php echo base_url('pm/referral'); ?>"><i class="entypo-newspaper"></i><span>Referral Mapping</span></a>
+	</li>
+
+<li>
+		<a href="<?php echo base_url('pm/inventory'); ?>"><i class="entypo-newspaper"></i><span>Inventory</span></a>
 	</li>
 </ul>
 						
@@ -263,16 +266,6 @@ document.getElementById(divId).style.display = 'none';
 
 
 
-$(document).ready(function(){
 
-//ShowHide();
-//toggle();
-//reportErrors();
-//validate();
-
-
-
-
-});
 
 </script>

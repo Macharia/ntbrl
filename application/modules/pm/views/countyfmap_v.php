@@ -141,23 +141,27 @@ document.getElementById(divId).style.display = 'none';
 <html lang="en">
 	
 	
-	<link rel="stylesheet" href="../assets/neon/neon-x/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css"  id="style-resource-1">
-	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/font-icons/entypo/css/entypo.css"  id="style-resource-2">
-	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/font-icons/entypo/css/animation.css"  id="style-resource-3">
-	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/neon.css"  id="style-resource-5">
-	<link rel="stylesheet" href="../assets/neon/neon-x/assets/css/custom.css"  id="style-resource-6">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/jquery-ui/css/no-theme/jquery-ui-1.10.3.custom.min.css"  id="style-resource-1">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/neon/neon-x/assets/css/font-icons/entypo/css/entypo.css"  id="style-resource-2">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/neon/neon-x/assets/css/font-icons/entypo/css/animation.css"  id="style-resource-3">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/neon/neon-x/assets/css/neon.css"  id="style-resource-5">
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/neon/neon-x/assets/css/custom.css"  id="style-resource-6">
 
-	<script src="../assets/neon/neon-x/assets/js/jquery-1.10.2.min.js"></script>
+	<script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/jquery-1.10.2.min.js"></script>
     
     <style type="text/css" title="currentStyle">
-@import "../assets/jquery-ui-1.10.3/demos/DataTables/media/css/demo_page.css";
-@import "../assets/jquery-ui-1.10.3/demos/DataTables/media/css/jquery.dataTables.css";
+@import "<?php echo base_url(); ?>assets/jquery-ui-1.10.3/demos/DataTables/media/css/demo_page.css";
+@import "<?php echo base_url(); ?>assets/jquery-ui-1.10.3/demos/DataTables/media/css/jquery.dataTables.css";
 </style>
-<script type="text/javascript" language="javascript" src="../assets/jquery-ui-1.10.3/demos/DataTables/media/js/jquery.js"></script>
-<script type="text/javascript" language="javascript" src=" ../assets/jquery-ui-1.10.3/demos/DataTables/media/js/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src="<?php echo base_url(); ?>assets/jquery-ui-1.10.3/demos/DataTables/media/js/jquery.js"></script>
+<script type="text/javascript" language="javascript" src=" <?php echo base_url(); ?>assets/jquery-ui-1.10.3/demos/DataTables/media/js/jquery.dataTables.js"></script>
+
+
+
 <script type="text/javascript" charset="utf-8">
 			
 /* Formating function for row details */
+
 
  
 $(document).ready(function() {
@@ -170,7 +174,7 @@ $(document).ready(function() {
 	//location.href = '#?id='+aData[1];
         $.ajax({
         type: "POST",
-        url: "../assets/ajax_data/fac.php",
+        url: "<?php echo base_url("ajax_data/cfmap/get_cfmap_json_/id");?>",
 		data: "id="+aData[1],
         async: true,
 		cache: false,
@@ -190,7 +194,7 @@ $(document).ready(function() {
      */
     var nCloneTh = document.createElement( 'th' );
     var nCloneTd = document.createElement( 'td' );
-    nCloneTd.innerHTML = '<img src="../assets/jquery-ui-1.10.3/demos/DataTables/examples/examples_support/details_open.png">';
+    nCloneTd.innerHTML = '<img src="<?php echo base_url(); ?>assets/jquery-ui-1.10.3/demos/DataTables/examples/examples_support/details_open.png">';
     nCloneTd.className = "center";
      
     $('#example thead tr').each( function () {
@@ -205,7 +209,9 @@ $(document).ready(function() {
      * Initialse DataTables, with no sorting on the 'details' column
      */
     var oTable = $('#example').dataTable( {
-       "bJQueryUI":true, "aoColumnDefs": [
+        "bJQueryUI":true,
+        "sAjaxSource": "countyfmap/get_countyfmap_json_", 
+        "aoColumnDefs": [
             { "bSortable": false, "aTargets": [ 0 ] }
         ],
         "aaSorting": [[1, 'asc']]
@@ -220,13 +226,13 @@ $(document).ready(function() {
         if ( oTable.fnIsOpen(nTr) )
         {
             /* This row is already open - close it */
-            this.src = "../assets/jquery-ui-1.10.3/demos/DataTables/examples/examples_support/details_open.png";
+            this.src = "<?php echo base_url(); ?>assets/jquery-ui-1.10.3/demos/DataTables/examples/examples_support/details_open.png";
             oTable.fnClose( nTr );
         }
         else
         {
             /* Open this row */
-            this.src = "../assets/jquery-ui-1.10.3/demos/DataTables/examples/examples_support/details_close.png";
+            this.src = "<?php echo base_url(); ?>assets/jquery-ui-1.10.3/demos/DataTables/examples/examples_support/details_close.png";
             oTable.fnOpen( nTr, fnFormatDetails(oTable, nTr), 'details' );
         }
     } );
@@ -266,22 +272,16 @@ $(document).ready(function() {
 				         </tr>
 					</thead>
 					<tbody>
-						
-						<?php 
-						foreach ($countyfmap_data as $key => $value) {
-							# code...
-						 
-
-						?> 	       
+					      
 				<tr class="odd gradeX">
 				 
 				
-				<td style="text-align: center">  <?php echo $value['ID']; ?></td>
-				<td style="text-align: center"> <?php echo $value['name']; ?></td>
-				<td style="text-align: center"><a href="countyview.php?id=<?php echo $value['ID']; ?>"><img src="../assets/images/icons/view.png" height="20" alt="View Details" title="View Details"/></a> 	
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"> 	
 				</td> 
 				 </tr>
-				           <?php } ?> 
+				        
 				      
 				 
 
@@ -298,23 +298,18 @@ $(document).ready(function() {
 	</div>
 	
 </div>
-
-<link rel="stylesheet" href="../assets/neon/neon-x/assets/js/select2/select2-bootstrap.css"  id="style-resource-1">
-	<link rel="stylesheet" href="../assets/admin/neon/neon-x/assets/js/select2/select2.css"  id="style-resource-2">
-    <script src="../assets/admin/neon/neon-x/assets/js/bootstrap-datepicker.js" id="script-resource-11"></script>
-	<script src="../assets/admin/neon/neon-x/assets/js/gsap/main-gsap.js" id="script-resource-1"></script>
-	<script src="../assets/admin/neon/neon-x/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js" id="script-resource-2"></script>
-	<script src="../assets/admin/neon/neon-x/assets/js/bootstrap.min.js" id="script-resource-3"></script>
-	<script src="../assets/admin/neon/neon-x/assets/js/joinable.js" id="script-resource-4"></script>
-	<script src="../assets/admin/neon/neon-x/assets/js/resizeable.js" id="script-resource-5"></script>
-	<script src="../assets/admin/neon/neon-x/assets/js/neon-api.js" id="script-resource-6"></script>
-	<script src="../assets/admin/neon/neon-x/assets/js/jquery.dataTables.min.js" id="script-resource-7"></script>
-	<script src="../assets/admin/neon/neon-x/assets/js/dataTables.bootstrap.js" id="script-resource-8"></script>
-	<script src="../assets/admin/neon/neon-x/assets/js/select2/select2.min.js" id="script-resource-9"></script>
-	<script src="../assets/admin/neon/neon-x/assets/js/neon-chat.js" id="script-resource-10"></script>
-	<script src="../assets/admin/neon/neon-x/assets/js/neon-custom.js" id="script-resource-11"></script>
-	<script src="../assets/admin/neon/neon-x/assets/js/neon-demo.js" id="script-resource-12"></script>
-	<script type="text/javascript">
-		
-		
-	</script>
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/select2/select2-bootstrap.css"  id="style-resource-1">
+  <link rel="stylesheet" href="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/select2/select2.css"  id="style-resource-2">
+    <script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/bootstrap-datepicker.js" id="script-resource-11"></script>
+  <script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/gsap/main-gsap.js" id="script-resource-1"></script>
+  <script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/jquery-ui/js/jquery-ui-1.10.3.minimal.min.js" id="script-resource-2"></script>
+  <script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/bootstrap.min.js" id="script-resource-3"></script>
+  <script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/joinable.js" id="script-resource-4"></script>
+  <script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/resizeable.js" id="script-resource-5"></script>
+  <script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/neon-api.js" id="script-resource-6"></script>
+  <script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/jquery.dataTables.min.js" id="script-resource-7"></script>
+  <script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/dataTables.bootstrap.js" id="script-resource-8"></script>
+  <script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/select2/select2.min.js" id="script-resource-9"></script>
+  <script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/neon-chat.js" id="script-resource-10"></script>
+  <script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/neon-custom.js" id="script-resource-11"></script>
+  <script src="<?php echo base_url(); ?>assets/neon/neon-x/assets/js/neon-demo.js" id="script-resource-12"></script>

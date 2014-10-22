@@ -27,12 +27,7 @@ class facility extends MY_Controller {
         	$facility_data = $this->facility_m->facility_pm();
         	
         	
-
-        	
-
-        	//$data['query_str']=null;
-        	//$data['dyn_table2']=null;
-        	
+      	
         	$data['facility_data'] = $facility_data;
 
 
