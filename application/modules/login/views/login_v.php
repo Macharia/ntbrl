@@ -322,7 +322,7 @@ padding:12px;
 <head>
 <meta charset="utf-8">
 <title>DLTLD</title>
-<link rel="SHORTCUT ICON" href="<?php echo base_url('assets/images/favicon.ico'); ?>" type="image/x-icon" />"
+<link rel="SHORTCUT ICON" href="<?php echo base_url('assets/images/favicon.ico'); ?>" type="image/x-icon" />
 <link rel="stylesheet" type="text/css" href="style2.css" media="screen" />
 <link rel="stylesheet" type="text/css" href="style.css" media="screen" />
 </head>

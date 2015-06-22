@@ -15,7 +15,7 @@
 	<!-- TS1387507087: Neon - Responsive ../assets Template created by Laborator -->
 
 
-<div class="main-content" style="margin-top: 5%;margin-left: .3%">
+<div class="main-content" style="margin-top: %;margin-left: .3%">
 
 <div class="row">
 	<div class="col-md-12">
@@ -44,9 +44,17 @@
 
 				$(document).ready(function() {
     			$('#table-1').dataTable( {
+    				
      			   "processing": true,
       				  "serverSide": true,
-        				"sAjaxSource": "facility/get_facility_json_"
+        				"sAjaxSource": "facility/get_facility_json_",
+        				"oLanguage": {
+
+												"sLengthMenu": "Page length: _MENU_",
+												"sSearch": "Filter:",
+												"sZeroRecords": "No records found"
+													}
+
         					
     				} );
 				} );
@@ -65,7 +73,7 @@
 
 
 				
-				<tr><td colspan="4" align="center"> <small>No Data to Display </small></td></tr>
+				
 				<table class="table table-bordered datatable" id="table-1">
 				<thead>
 				

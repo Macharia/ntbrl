@@ -1,3 +1,18 @@
+<style type="text/css">
+
+.center{
+	align: center;
+}
+.left{
+	align:left;
+}
+.right{
+	align:right;
+}
+#table-1 tbody>tr>td{
+	text-align: center;
+}
+</style>
 <!DOCTYPE html>
 <html lang="en">
 	
@@ -115,15 +130,67 @@
 
 
 								$(document).ready(function() {
+
+
+									jQuery.fn.dataTableExt.oSort['usdate-asc']  = function(a,b) {
+												alert('sadasda');
+											    var usDatea = $(a).text().split('/'); 
+											    var usDateb = $(b).text().split('/'); 
+
+											    var x = (usDatea[2] + usDatea[0] + usDatea[1]) * 1;
+											    var y = (usDateb[2] + usDateb[0] + usDateb[1]) * 1;
+
+											    return ((x < y) ? -1 : ((x > y) ?  1 : 0));
+											};
+
+									jQuery.fn.dataTableExt.oSort['usdate-desc'] = function(a,b) {
+											    var usDatea = $(a).text().split('/'); 
+											    var usDateb = $(b).text().split('/'); 
+
+											    var x = (usDatea[2] + usDatea[0] + usDatea[1]) * 1;
+											    var y = (usDateb[2] + usDateb[0] + usDateb[1]) * 1;
+
+											    return ((x < y) ? 1 : ((x > y) ?  -1 : 0));
+											};
+
+
+
+
+
 										$('#table-1').dataTable( {
-										"processing": true,
+										"bprocessing": true,
 										"serverSide": true,
+										"bJQueryUI" : true,
+
 										"sAjaxSource": "<?php echo base_url().'pm/countyallocation/get_county_allocation_json_?id='.$countyID;?>",
-										// "aoColumns": [
-										// {"sClass" : "center"}]
-										
+										"aoColumns": [
+										{"sClass" : "center","bSortable":"true"},
+										{"sClass" : "center","bSortable":"true"},
+										{"sClass" : "center","bSortable":"true"},
+										{"sClass" : "center","sType":"usdate","bSortable":"true"},
+										{"sClass" : "center","bSortable":"true"},
+										{"sClass" : "center","bSortable":"true"},
+										{"sClass" : "center","bSortable":"true"},
+										{"sClass" : "center","bSortable":"true"},
+										{"sClass" : "center","bSortable":"true"},
+										{"sClass" : "center","bSortable":"true"},
+										{"sClass" : "center","bSortable":"true"},
+										],
+
+										"oLanguage": {
+
+												"sLengthMenu": "Page length: _MENU_",
+												"sSearch": "Filter:",
+												"sZeroRecords": "No records found"
+													}
+						
 										} );
-										} );
+
+
+
+
+
+							} );
 
 
 

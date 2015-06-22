@@ -55,19 +55,36 @@ class inv extends MY_Controller {
 
 		public function get_inv_chart_(){
 
+		$currentmonth=@date("m");
+		$currentyear=@date("Y");
+		$previousmonth=@date("m")- 1;
 
+		if ($currentmonth ==1)
+		{
+		$previousmonth=12;
+
+		}
+		else
+		{
+		$previousmonth=@date("m")- 1;
+		$currentyear=@date("Y");
+		} 	
 
 		
 
 		
 		  
-		 $query_str="SELECT DISTINCT s.facility as fcode, f.name as fname, DATEDIFF( max( s.Expiration_Date ) , NOW() ) AS DiffDate, (c.end_bal+c.allocated) AS cart
-					FROM sample1 s
-			        left join facilitys f on s.facility = f.facilitycode
-					left join consumption c on s.facility = c.facility
-					where s.facility IS NOT NULL
-					GROUP BY s.facility ";
-			  
+		 $query_str="SELECT DISTINCT c.facility as fcode, f.name as fname, DATEDIFF( max( s.Expiration_Date ) , NOW() ) AS DiffDate,(c.end_bal+c.received) AS cart
+				        FROM consumption c
+				        left join facilitys f on c.facility = f.facilitycode
+						left join sample1 s on s.facility = c.facility
+						where s.Expiration_Date IS NOT NULL
+						and c.facility>1
+						and c.commodity='Cartridge'
+				        and Year(c.date) = '2015'
+						and month(c.date) = '$previousmonth'
+						GROUP BY c.facility ";
+							  
 			  $result = $this->db->query($query_str)->result_array();
 			   
 			$chart =$title= $data=null;
@@ -79,30 +96,71 @@ class inv extends MY_Controller {
 			    
 			   
 				$fid=$value['fcode'];
-			   	$fname=trim($value['fname']);
-			  	$dd=$value['DiffDate'];
-				$cart= (int) $value['cart'];
-
-
-				if ($dd<0) {
-
-			 	$dd=0;
-
-		//$chart.='<category label= "'.$this->monthname.'" />';
+   	$fname= htmlspecialchars($value['fname'], ENT_QUOTES, 'UTF-8');
+  	$dd= (int) $value['DiffDate'];
+	$cart= (int) $value['cart'];
+	
+	$q = "SELECT (c.end_bal+c.allocated) AS tubes FROM consumption c WHERE  c.facility='$fid' and c.commodity='Falcon Tubes'  ORDER BY c.date DESC LIMIT 1";
+	$r = $this->db->query($q)->result_array();
+	$tubes= $r['tubes'];
+	
+	$query_rssample = "SELECT * FROM sample1 WHERE MONTH(End_Time)='$currentmonth' and  YEAR(End_Time)='$currentyear' and cond=1 and facility='$fid'";
+	$row_rssample = $this->db->query($query_rssample)->result_array();
+	$testdonethismonth = $row_rssample;
+	
 		
-		$data.="<set label='".$fname."' value='".$dd."'
-    			toolText='Facility Name:".$fname.";  
-           			   Facility Code:".$fid.";  
-			           No Inventory Recorded'/>";
-			       }
-			else{       
-
-		$data.="<set label='".$fname."' value='".$dd."'
-            toolText='Facility Name:".$fname." 
-           			   Facility Code:".$fid."&lt;BR&gt; 
-			           Remaining days(Expiration):".$dd." Days 
-			           Remaining Cartridges:".$cart."Cartridges'/>";
+	$remainingcarts= $cart - $testdonethismonth;
+	$remainingtubes= $tubes - $testdonethismonth;
+	
+	if ($remainingcarts<0) {
+		$remainingcarts=0;
+	}
+	if ($remainingtubes<0) {
+		$remainingtubes=0;
+	}
+	
+	if ($dd=='NULL' or '') {
+		$dd=0;
+	}
+	 if ($dd<0) 
+	 	$dd = 0;
+		 
+		 $data.="<set label='<?php echo $fname ?>' value='<?php echo $dd ?>'
+            toolText='<?php echo "Facility Name: " .$fname; ?>
+           			  <?php echo "\nFacility Code: " .$fid; ?>
+			          <?php echo "\nNo Inventory Recorded" ;?>'/>" 
+		 
+		
+    	    else 
+    	        {
+    			if($dd<60 && $remainingcarts>150){
+    				$color='FF0000';
+    			}
+				elseif($dd>90 and $remainingcarts<50)
+				{
+					$color='FFFF00';
 				}
+				elseif($remainingtubes<50)
+				{
+					$color='FFFF00';
+				}
+				elseif($dd<60 && $remainingcarts<50)
+				{
+					$color='FFFF00';
+				}
+				else
+				{
+					$color='8BBA00';
+				}
+    		 
+		$data.="<set color='<?php echo $color ?>' label='<?php echo $fname ?>' value='<?php echo $dd ?>'
+            toolText='<?php echo "Facility Name: " .$fname; ?>
+           			  <?php echo "\nFacility Code: " .$fid; ?>
+			          <?php echo "\nRemaining days(Expiration): " .$dd." Days"; ?>
+			          <?php echo "\nRemaining Cartridges: " .$remainingcarts." Cartridges"; ?>
+			          <?php echo "\nRemaining Falcon Tubes: " .$remainingtubes." Falcon Tubes"; ?>'/>" 
+
+		
 				
 			}
 

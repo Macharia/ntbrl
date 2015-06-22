@@ -43,7 +43,7 @@ width: 47.5%;
 
    
 
-<div class="main-content" style="margin-top: 6%;margin-left: .3%">
+<div class="main-content" style="margin-top: %;margin-left: .3%">
 	 
 <div class="row">
 	<div class="col-sm-3">
@@ -92,7 +92,6 @@ width: 47.5%;
 					<select name="county" id="county" class="form-control">
 			        <option value="0">All Counties</option>
 			       <!--  <option value><?php  ?></option> -->
-					?>
 			        </select>
 			        </td>
 			        </tr>
@@ -106,7 +105,6 @@ width: 47.5%;
 					<select name="facility" id="facility" class="form-control">
 			        <option value="0">All Facilities</option>
 			       <!--  <option value><?php  ?></option> -->
-					?>
 			        </select>
 					<td style="text-align:left">
 					
@@ -199,13 +197,17 @@ $(document).ready(function(){
         },
         success: function(data) {
             obj = jQuery.parseJSON(data);
-            console.log(obj);
+            //console.log(obj);
 
 			            $.each(obj, function(k, v) {
+
+			            	$('#facility').hide();//hides facility div
 						    
 						    if (k == "aaData"){
+
 						    	$.each(v, function(k, v){
 						    	// console.log(v);
+
 						    	$('#county').append ('<option value='+v["0"]+'>'+v['1']+'</option>');	
 						    	});
 						    	

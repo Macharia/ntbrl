@@ -68,54 +68,54 @@ class  MY_Controller  extends  MX_Controller {
 return $showyear;
 }
 	
-	function GetMonthName($month)
-{
-	$monthname="";
- if ($month==1)
- {
-     $monthname=" Jan ";
- }
-else if ($month==2)
- {
-     $monthname=" Feb ";
- }else if ($month==3)
- {
-     $monthname=" Mar ";
- }else if ($month==4)
- {
-     $monthname=" Apr ";
- }else if ($month==5)
- {
-     $monthname=" May ";
- }else if ($month==6)
- {
-     $monthname=" Jun ";
- }else if ($month==7)
- {
-     $monthname=" Jul ";
- }else if ($month==8)
- {
-     $monthname=" Aug ";
- }else if ($month==9)
- {
-     $monthname=" Sep ";
- }else if ($month==10)
- {
-     $monthname=" Oct ";
- }else if ($month==11)
- {
-     $monthname=" Nov ";
- }
-  else if ($month==12)
- {
-     $monthname=" Dec ";
- }
-  else if ($month==13)
- {
-     $monthname=" Jan - Sep  ";
- }
-return $monthname;
-}
+// 	function GetMonthName($month)
+// {
+// 	$monthname="";
+//  if ($month==1)
+//  {
+//      $monthname=" Jan ";
+//  }
+// else if ($month==2)
+//  {
+//      $monthname=" Feb ";
+//  }else if ($month==3)
+//  {
+//      $monthname=" Mar ";
+//  }else if ($month==4)
+//  {
+//      $monthname=" Apr ";
+//  }else if ($month==5)
+//  {
+//      $monthname=" May ";
+//  }else if ($month==6)
+//  {
+//      $monthname=" Jun ";
+//  }else if ($month==7)
+//  {
+//      $monthname=" Jul ";
+//  }else if ($month==8)
+//  {
+//      $monthname=" Aug ";
+//  }else if ($month==9)
+//  {
+//      $monthname=" Sep ";
+//  }else if ($month==10)
+//  {
+//      $monthname=" Oct ";
+//  }else if ($month==11)
+//  {
+//      $monthname=" Nov ";
+//  }
+//   else if ($month==12)
+//  {
+//      $monthname=" Dec ";
+//  }
+//   else if ($month==13)
+//  {
+//      $monthname=" Jan - Sep  ";
+//  }
+// return $monthname;
+// }
 	
 
 
@@ -1303,7 +1303,59 @@ public function TOTALFacilitypercounty($county){
 
 			}
 
+/////////////labtech//////////////////////////////////////////////////////////////////////////////////////////
 
+			public function get_complete_fac($FacID){
+
+			$query_str = "SELECT * FROM sample1 WHERE cond=1 and Test_Result!='ERROR' and facility='$FacID'";
+
+			$result = $this->db->query($query_str)->result_array();
+			$complete = count($result);
+			
+			return $complete; 
+			
+		}	
+
+			public function get_notup_fac($FacID){
+
+			$query_str = "SELECT * FROM sample1 WHERE cond=0 and facility='$FacID'";
+
+			$result = $this->db->query($query_str)->result_array();
+
+			$notup = count($result);	
+			
+			return $notup; 
+			
+		}	
+
+			public function get_errors_fac($FacID){
+
+			$query_str = "SELECT * FROM sample1 WHERE Test_Result='ERROR' and facility='$FacID'";
+
+			$result = $this->db->query($query_str)->result_array();
+
+			$errors = count($result);
+			
+			return $errors; 
+			
+		}	
+
+			public function get_todayswork_fac($dt,$FacID){
+
+			$query_str = "SELECT * FROM sample1 WHERE cond=1 and coldate='$dt' and facility='$FacID'";
+
+			$result = $this->db->query($query_str)->result_array();
+
+			if ($result) {
+				$todayswork = $result[0][1];
+			}else{
+
+				$todayswork = 0;
+			}
+			
+			return $todayswork; 
+			
+		}	
 
 
 

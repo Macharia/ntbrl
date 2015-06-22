@@ -13,7 +13,7 @@
    
        
 
-<div class="main-content" style="margin-top: 6%;margin-left: .3%">
+<div class="main-content" style="margin-top: %;margin-left: .3%">
 	 
 <div class="row">
 

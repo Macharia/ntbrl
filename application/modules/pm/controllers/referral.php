@@ -5,6 +5,13 @@ if (!defined('BASEPATH'))
 class referral extends MY_Controller {
 
 
+		function __construct() {
+
+			parent::__construct();
+
+
+		}
+
 
 	public function index()
 	{
@@ -27,7 +34,6 @@ class referral extends MY_Controller {
 
 
 	}
-
 
 	public function get_referral_json_()
 		{

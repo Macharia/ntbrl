@@ -107,7 +107,7 @@ class countymap extends MY_Controller {
 				   	
 
 
-				   	$data .= "<entity link='countyview/$countyid' id='$countyid' displayValue ='$countyname' color='" . array_rand($colors,1) . "'  toolText='County :$countyname&lt;BR&gt; Total Tests:".$this->testC."&lt;BR&gt; MTB Positive :".$this->MTBposC." &lt;BR&gt; Not Detected:".$this->MTBnegC."  &lt;BR&gt; RIF Resistsnt:".$this->RifResC." &lt;BR&gt; GeneXpert Sites:".$this->siteC."'/>";
+				   	$data .= "<entity link='countyview?id=$countyid' id='$countyid' displayValue ='$countyname' color='" . array_rand($colors,1) . "'  toolText='County :$countyname&lt;BR&gt; Total Tests:".$this->testC."&lt;BR&gt; MTB Positive :".$this->MTBposC." &lt;BR&gt; Not Detected:".$this->MTBnegC."  &lt;BR&gt; RIF Resistsnt:".$this->RifResC." &lt;BR&gt; GeneXpert Sites:".$this->siteC."'/>";
 		 
 
 				   }

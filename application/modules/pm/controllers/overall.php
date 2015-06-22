@@ -131,7 +131,7 @@ class overall extends MY_Controller {
         $data['displaytodate'] = $this->displaytodate;
         $data['displayfromdate'] = $this->displayfromdate ;
 
-        $data['returnable'] = $this->header_var();
+        $data['returnable'] = $this->header_var();  
 
 
 
@@ -173,6 +173,7 @@ class overall extends MY_Controller {
         $todate = null;
         $tofilter = null;
         $fromfilter = null;
+        //echo json_encode('ok');die();
 
         if (isset($_GET['year']))
         {
@@ -281,6 +282,7 @@ class overall extends MY_Controller {
                 
                 $filter = 2;
                 $fromfilter = $_POST['fromfilter'];
+               
                 $tofilter = $_POST['tofilter'];
                 $mwaka = substr($fromfilter, 0,4);
                 $mwezi = substr($fromfilter, 5,2);
@@ -466,38 +468,48 @@ return $showyear;
             
 
 
-            $query_str="SELECT total,mtb,neg,rif
-    FROM(
-    SELECT 
+            $query_str="SELECT fac, total,mtb,neg,rif,ind,errs
+FROM(
+SELECT 
 
-    sum(CASE WHEN cond='1' THEN 1 ELSE 0 END) as total,
+COUNT(DISTINCT facility) AS fac,
 
-    sum( CASE WHEN Test_Result = 'positive' THEN 1 ELSE 0 END ) AS mtb,
+sum(CASE WHEN cond='1' THEN 1 ELSE 0 END) as total,
 
-    sum(CASE WHEN Test_Result = 'negative'  THEN 1 ELSE 0 END) as neg,
+sum( CASE WHEN Test_Result = 'positive' THEN 1 ELSE 0 END ) AS mtb,
 
-    sum( CASE WHEN mtbRif = 'positive' THEN 1 ELSE 0 END ) AS rif  
+sum( CASE WHEN Test_Result =  'negative'  THEN 1 ELSE 0 END) as neg,
 
+sum( CASE WHEN mtbRif = 'positive' THEN 1 ELSE 0 END ) AS rif,
 
-    FROM sample1)x" ;    
+sum( CASE WHEN mtbRif = 'Indeterminate' THEN 1 ELSE 0 END ) AS ind,  
+
+sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid' THEN 1 ELSE 0 END ) AS errs  
+FROM sample1 where cond=1)x" ;    
 
     // var_dump($query_str);
     // die();
 
      $result = $this->db->query($query_str)->result_array();
      if( $result){
+        $this->fac=$result[0]['fac'];
         $this->total=$result[0]['total'];
         $this->mtb=$result[0]['mtb'];
         $this->notb=$result[0]['neg'];
         $this->rif=$result[0]['rif'];
+        $this->ind=$result[0]['ind'];
+        $this->errs=$result[0]['errs'];
      }
 
     
      
+       return $this->fac;
        return $this->total;
        return $this->mtb;
        return $this->notb;
        return $this->rif;
+       return $this->ind;
+       return $this->errs;
             }   
             
 
@@ -1032,66 +1044,73 @@ public function totalTestsByOutcome($filter,$currentmonth,$currentyear,$fromfilt
 
 if ($filter==0) //last submission
       {
-       $query_str="SELECT  count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
+       $query_str="SELECT COUNT(DISTINCT facility) AS fac, count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
        sum( CASE WHEN Test_Result = 'positive' THEN 1 ELSE 0 END ) AS MTBpositive,
        sum(CASE WHEN Test_Result = 'negative'  THEN 1 ELSE 0 END) AS MTBnegative,
        sum( CASE WHEN mtbRif = 'positive' THEN 1 ELSE 0 END ) AS rif,
-       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid' OR Test_Result = 'Indeterminate' THEN 1 ELSE 0 END ) AS err   
+       sum( CASE WHEN mtbRif= 'Indeterminate' THEN 1 ELSE 0 END ) AS ind,
+       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid'  THEN 1 ELSE 0 END ) AS err   
        FROM  sample1 WHERE MONTH(End_Time)='$currentmonth' AND YEAR(End_Time)='$currentyear'";
 
       }
       elseif ($filter==1)//last 6 months $fromdate$todate
       {
-       $query_str="SELECT  count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
+       $query_str="SELECT COUNT(DISTINCT facility) AS fac, count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
        sum( CASE WHEN Test_Result = 'positive' THEN 1 ELSE 0 END ) AS MTBpositive,
        sum(CASE WHEN Test_Result = 'negative'  THEN 1 ELSE 0 END) AS MTBnegative,
        sum( CASE WHEN mtbRif = 'positive' THEN 1 ELSE 0 END ) AS rif,
-       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid' OR Test_Result = 'Indeterminate' THEN 1 ELSE 0 END ) AS err
+       sum( CASE WHEN mtbRif= 'Indeterminate' THEN 1 ELSE 0 END ) AS ind,
+       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid'  THEN 1 ELSE 0 END ) AS err    
        FROM  sample1 WHERE End_Time BETWEEN '$fromdate' AND '$todate'  AND cond='1' ";
       }
       elseif ($filter==2)//cusomtize dates $fromfiler $tofilter
       {
-          $query_str="SELECT  count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
+          $query_str="SELECT COUNT(DISTINCT facility) AS fac, count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
        sum( CASE WHEN Test_Result = 'positive' THEN 1 ELSE 0 END ) AS MTBpositive,
        sum(CASE WHEN Test_Result = 'negative'  THEN 1 ELSE 0 END) AS MTBnegative,
        sum( CASE WHEN mtbRif = 'positive' THEN 1 ELSE 0 END ) AS rif,
-       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid' OR Test_Result = 'Indeterminate' THEN 1 ELSE 0 END ) AS err 
+       sum( CASE WHEN mtbRif= 'Indeterminate' THEN 1 ELSE 0 END ) AS ind,
+       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid'  THEN 1 ELSE 0 END ) AS err  
        FROM  sample1 WHERE End_Time BETWEEN '$fromfilter' AND '$tofilter'  AND cond='1' ";
       }
         elseif ($filter==3)//month/year
       {
-       $query_str="SELECT  count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
+       $query_str="SELECT COUNT(DISTINCT facility) AS fac, count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
        sum( CASE WHEN Test_Result = 'positive' THEN 1 ELSE 0 END ) AS MTBpositive,
        sum(CASE WHEN Test_Result = 'negative'  THEN 1 ELSE 0 END) AS MTBnegative,
        sum( CASE WHEN mtbRif = 'positive' THEN 1 ELSE 0 END ) AS rif,
-       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid' OR Test_Result = 'Indeterminate' THEN 1 ELSE 0 END ) AS err  
+       sum( CASE WHEN mtbRif= 'Indeterminate' THEN 1 ELSE 0 END ) AS ind,
+       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid'  THEN 1 ELSE 0 END ) AS err   
        FROM  sample1 WHERE MONTH(End_Time)='$currentmonth' AND YEAR(End_Time)='$currentyear' AND cond='1'  ";
       }
         elseif ($filter==4)//year only
       {
-       $query_str="SELECT  count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
+       $query_str="SELECT COUNT(DISTINCT facility) AS fac, count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
        sum( CASE WHEN Test_Result = 'positive' THEN 1 ELSE 0 END ) AS MTBpositive,
        sum(CASE WHEN Test_Result = 'negative'  THEN 1 ELSE 0 END) AS MTBnegative,
        sum( CASE WHEN mtbRif = 'positive' THEN 1 ELSE 0 END ) AS rif,
-       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid' OR Test_Result = 'Indeterminate' THEN 1 ELSE 0 END ) AS err
+       sum( CASE WHEN mtbRif= 'Indeterminate' THEN 1 ELSE 0 END ) AS ind,
+       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid'  THEN 1 ELSE 0 END ) AS err    
        FROM  sample1 WHERE  YEAR(End_Time)='$currentyear'  AND cond='1' ";
       }
         elseif ($filter==7) //last 6 months $fromdate$todate
       {
-       $query_str="SELECT  count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
+       $query_str="SELECT COUNT(DISTINCT facility) AS fac, count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
        sum( CASE WHEN Test_Result = 'positive' THEN 1 ELSE 0 END ) AS MTBpositive,
        sum(CASE WHEN Test_Result = 'negative'  THEN 1 ELSE 0 END) AS MTBnegative,
        sum( CASE WHEN mtbRif = 'positive' THEN 1 ELSE 0 END ) AS rif,
-       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid' OR Test_Result = 'Indeterminate' THEN 1 ELSE 0 END ) AS err
+       sum( CASE WHEN mtbRif= 'Indeterminate' THEN 1 ELSE 0 END ) AS ind,
+       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid'  THEN 1 ELSE 0 END ) AS err    
        FROM  sample1 WHERE End_Time BETWEEN '$fromdate' AND '$todate' AND cond='1'  ";
       }
         elseif ($filter==8) //all
       {
-       $query_str="SELECT  count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
+       $query_str="SELECT COUNT(DISTINCT facility) AS fac, count(CASE WHEN cond='1' THEN 1 ELSE 0 END) AS totaltt,
        sum( CASE WHEN Test_Result = 'positive' THEN 1 ELSE 0 END ) AS MTBpositive,
        sum(CASE WHEN Test_Result = 'negative'  THEN 1 ELSE 0 END) AS MTBnegative,
        sum( CASE WHEN mtbRif = 'positive' THEN 1 ELSE 0 END ) AS rif,
-       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid' OR Test_Result = 'Indeterminate' THEN 1 ELSE 0 END ) AS err
+       sum( CASE WHEN mtbRif= 'Indeterminate' THEN 1 ELSE 0 END ) AS ind,
+       sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid'  THEN 1 ELSE 0 END ) AS err    
        FROM  sample1 WHERE cond='1'  ";
       }
 
@@ -1109,26 +1128,32 @@ if ($filter==0) //last submission
         // return $this->tt;
                                     
 if( $result){
+    $this->fac=$result[0]['fac'];
     $this->totaltt=$result[0]['totaltt'];
     $this->MTBpositive=$result[0]['MTBpositive'];
     $this->MTBnegative=$result[0]['MTBnegative'];
     $this->rifRes=$result[0]['rif'];
+    $this->ind=$result[0]['ind'];
     $this->err=$result[0]['err'];
  }
 else{
+    $this->fac=0;
     $this->totaltt=0;
     $this->MTBpositive=0;
     $this->MTBnegative=0;
     $this->rifRes=0;
+    $this->ind=0;
     $this->err=0;
 
 }
  
- 
+   return $this->fac;     
    return $this->totaltt;
    return $this->MTBpositive;
    return $this->MTBnegative;
    return $this->rifRes;
+   return $this->ind;
+   return $this->err;
 
 }
 

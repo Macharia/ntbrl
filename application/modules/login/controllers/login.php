@@ -3,9 +3,15 @@ if (!defined('BASEPATH'))
 	exit('No direct script access allowed');
 
 class login extends MY_Controller {
+	var $countyID;
 	
 		
-		
+		function __construct() {
+               			 parent::__construct();
+
+              $this->countyID=$this->get_countyid(); 			 
+               			}
+
 		public function index(){
 			
 			$this->login_();
@@ -66,13 +72,16 @@ class login extends MY_Controller {
 									'logged_in'=> TRUE,
 									'category' => $login_data['category'],
 									'name' => $login_data['name'],
+									'facility' => $login_data['facility'],
+									'mfl'  => $login_data['mfl'],
+									'id'	=> $login_data['id'],
 									));
 						//log them in
 						if($login_data['category']==1)
 						
 						{
 						//redirects to allocated user group
-						redirect('login/login');
+						redirect('admin/index');
 							
 														
 						}
@@ -89,7 +98,7 @@ class login extends MY_Controller {
 						else if ($login_data['category']==3)
 						{
 						//redirects to allocated user group
-						redirect('#');
+						redirect('labtech/index');
 							
 							
 							
@@ -107,8 +116,12 @@ class login extends MY_Controller {
 
 						else if ($login_data['category']==5)
 						{
+
+						
+							
+						$countyID=$this->get_countyid();	
 						//redirects to allocated user group
-						redirect('#');
+						redirect("dtlc/countyview_dltc?id=".$countyID."");
 							
 							
 							
@@ -255,11 +268,30 @@ class login extends MY_Controller {
 	}
 	
 	
-	public function get_role($id)
+	public function get_countyid()
 	{
-		
-		$this->db->where('id',$id);
-		return $this->db->get(config_item('users'));
+		$facilitycode= $this->session->userdata('mfl');
+
+		$query_str="SELECT  countys.ID AS cid,countys.name AS cN 
+				FROM countys,facilitys ,districts
+				WHERE 
+				`facilitys`.`facilitycode`='$facilitycode'
+				AND `districts`.`ID` = `facilitys`.`district`
+				AND `countys`.`ID` = `districts`.`county` ";
+
+		$result = $this->db->query($query_str)->result_array();
+			if ($result) {
+			$this->countyID = $result[0]['cid'];
+			$cn = $result[0]['cN'];	
+
+			}
+			else{
+				$this->countyID=0;
+				$this->cname=0;
+			}
+		//var_dump($this->countyID);
+		// die();
+		return $this->countyID;
 		
 		
 		

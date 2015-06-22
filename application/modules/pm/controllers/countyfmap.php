@@ -46,10 +46,20 @@ class countyfmap extends MY_Controller {
 		{
 
 
-			$req = R::getAll("SELECT `countys`.`ID` AS ID,
-									 `countys`.`name` AS name 
-			 				FROM `countys`
-			  				ORDER BY `countys`.`ID` ASC");
+			$req = R::getAll("SELECT 
+									countys.ID as ID,countys.name AS name,
+									COUNT(*) AS Totaltest,
+									sum(CASE WHEN Test_Result = 'positive' THEN 1 ELSE 0 END ) AS mtbpos,
+									sum( CASE WHEN Test_Result = 'negative' THEN 1 ELSE 0 END ) AS MTBNEG,
+									sum( CASE WHEN mtbRif='positive' THEN 1 ELSE 0 END ) AS mtbrif,
+									sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid' OR Test_Result = 'Indeterminate' THEN 1 ELSE 0 END ) AS err
+
+									FROM sample1 
+									RIGHT JOIN `facilitys` ON `sample1`.`facility` = `facilitys`.`facilitycode`
+									RIGHT JOIN `districts` ON `districts`.`ID` = `facilitys`.`district`
+									RIGHT JOIN `countys` ON `countys`.`ID` = `districts`.`county`
+									WHERE  sample1.cond='1'
+									Group by countys.ID");
 
 			$data = array();
 			$recordsTotal = 0;
@@ -59,6 +69,11 @@ class countyfmap extends MY_Controller {
 			{
 				$id = $value['ID'];
 				$name = $value['name'];
+				$Totaltest = $value['Totaltest'];
+				$mtbpos = $value['mtbpos'];
+				$MTBNEG = $value['MTBNEG'];
+				$mtbrif = $value['mtbrif'];
+				$err = $value['err'];
 				$link = '<a href="'.base_url().'pm/countyview?id='.$id.'">';
 
 
@@ -69,6 +84,11 @@ class countyfmap extends MY_Controller {
 				'<img src="../assets/jquery-ui-1.10.3/demos/DataTables/examples/examples_support/details_open.png">',
 				$value["ID"],
 				$value["name"]." "."County",
+				$value["Totaltest"],
+				$value["mtbpos"],
+				$value["MTBNEG"],
+				$value["mtbrif"],
+				$value["err"],
 				$link.'<img src="../assets/images/icons/view.png" height="20" alt="View Details" title="View Details"/>'
 
 				);

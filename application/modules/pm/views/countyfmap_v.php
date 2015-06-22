@@ -240,10 +240,10 @@ $(document).ready(function() {
 			
 </script>
 
-<div class="main-content" style="margin-top: 6%;margin-left: 10%">
+<div class="main-content">
 	 
 <div class="row">
-	<div align="center" class="col-sm-9">
+	<div class="col-sm-11" style="margin-top: 1.5%;margin-left: 4%;">
 		
 		<div class="panel panel-gradient">
 			<div class="panel-heading">
@@ -261,13 +261,18 @@ $(document).ready(function() {
 		
 			<div class="panel-body no-padding">
 				
-				<table  class="display" id="example"  >
+				<table  class="display" id="example" >
 					<thead>
 						<tr>
 							
 				            <th style="text-align: center" >County ID </th>
 				            <th style="text-align: center" >County Name</th>
-				            <th style="text-align: center" >Action </th>
+				            <th style="text-align: center" >Total Tests</th>
+				            <th style="text-align: center" >MTB Positive</th>
+				            <th style="text-align: center" >MTB Negative</th>
+				            <th style="text-align: center" >RIF Resistant</th>
+				            <th style="text-align: center" >Errors</th>
+				            <th style="text-align: center" >View County Analytics </th>
 				            
 				         </tr>
 					</thead>
@@ -280,6 +285,12 @@ $(document).ready(function() {
 				<td style="text-align: center"></td>
 				<td style="text-align: center"> 	
 				</td> 
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
+				<td style="text-align: center"> 	
+				</td> 
+				<td style="text-align: center"></td>
+				<td style="text-align: center"></td>
 				 </tr>
 				        
 				      

@@ -11,7 +11,7 @@ class allo_summ extends MY_Controller {
 		 var $maximumyear;
 		 var $minimumyear;
 		 var $TT;
-		var $TTA;
+		 var $TTA;
 		
 
 

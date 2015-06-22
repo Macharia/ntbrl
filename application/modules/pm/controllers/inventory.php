@@ -29,11 +29,13 @@ class inventory extends MY_Controller {
                 $countyId =$_GET['id'];
             }
 
-		
-		$data['category'] = $this->session->userdata('category');
+		    
+        $data['category'] = $this->session->userdata('category');
         $data['user'] = $this->session->userdata('user');
         $data['name'] = $this->session->userdata('name');
 
+
+        $data['table'] = $this->get_allocation_table_();
         
 
 
@@ -486,6 +488,105 @@ public function GetMinYear()
 }
 
 
+public function get_allocation_table_(){
+         
+          $currentmonth=date("m");
+          $currentyear=date("Y");
+          $previousmonth=date("m")- 1;
+
+          if ($currentmonth ==1)
+          {
+          $previousmonth=12;
+
+          }
+          else
+          {
+          $previousmonth=date("m")- 1;
+          $currentyear=date("Y");
+          } 
+
+
+
+
+
+          $query_str = "Select DISTINCT c.facility as fcode, f.name as fname, DATEDIFF( max( s.Expiration_Date ) , NOW() ) AS DiffDate,(c.end_bal+c.received) AS cart
+                        FROM consumption c
+                        left join facilitys f on c.facility = f.facilitycode
+                    left join sample1 s on s.facility = c.facility
+                    where s.Expiration_Date IS NOT NULL
+                    and c.facility>1
+                    and c.commodity='Cartridge'
+                        and Year(c.date) = '2015'
+                    and month(c.date) = '$previousmonth'
+                    GROUP BY c.facility";
+
+          $result = $this->db->query($query_str)->result_array();
+
+          // echo "<pre/>";
+          // print_r($result);
+
+          // die();
+
+
+
+          $table='<table class="table table-striped"><tr><th  style="text-align:center">MFL Code</th><th  style="text-align:center">Facility Name</th><th  style="text-align:center">Remaining Cartridges</th><th  style="text-align:center">Remaining days(Expiration)</th><th  style="text-align:center">Remaining Falcon Tubes</th></tr>';
+          $sumrc=0;
+          $sumrt=0;
+
+
+           foreach($result as $value)
+          {
+            
+
+            $fid=$value['fcode'];
+            $fname= htmlspecialchars($value['fname'], ENT_QUOTES, 'UTF-8');
+            $dd= (int) $value['DiffDate'];
+            $cart= (int) $value['cart'];
+
+
+            $q = "SELECT (c.end_bal+c.allocated) AS tubes FROM consumption c WHERE  c.facility='$fid' and c.commodity='Falcon Tubes'  ORDER BY c.date DESC LIMIT 1";
+            $r = $this->db->query($q)->result_array();
+            $tubes= $r[0]['tubes'];
+
+
+            $query_rssample = "SELECT * FROM sample1 WHERE MONTH(End_Time)='$currentmonth' and  YEAR(End_Time)='$currentyear' and cond=1 and facility='$fid'";
+            $rssample = $this->db->query($q)->result_array();
+            $testdonethismonth = $rssample;
+            return $testdonethismonth;
+
+            $remainingcarts= $cart - $testdonethismonth;
+            $remainingtubes= $tubes - $testdonethismonth;
+
+            if ($remainingcarts<0) {
+            $remainingcarts=0;
+            }
+            if ($remainingtubes<0) {
+            $remainingtubes=0;
+            }
+
+            if ($dd=='NULL' or '') {
+            $dd=0;
+            }
+            if ($dd<0) {
+            $dd = 0;
+            } 
+            $sumrc+=$remainingcarts;
+            $sumrt+=$remainingtubes;
+
+             $table .= '<tr><td style="text-align:center">'.$fid.'</td><td style="text-align:center">'.$fname.'</td><td style="text-align:center">'.$remainingcarts.'</td><td style="text-align:center">'.$dd.' days</td><td style="text-align:center">'.$remainingtubes.'</td></tr>';
+
+
+            
+          }
+          $table.='<tr><td colspan="3" style="text-align:center">Total Remaining Cartridges = '.$sumrc.'</td><td colspan="2" style="text-align:center">Total remaining Falcon Tubes = '.$sumrt.'</td></tr>';
+          $table.='</table>';
+          return $table;
+          
+
+
+
+
+        }
 
 //END
 

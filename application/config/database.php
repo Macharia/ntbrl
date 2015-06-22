@@ -45,13 +45,16 @@
 | the active record class
 */
 
+
+
+//error_reporting(0);
 $active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
 $db['default']['password'] = '';
-$db['default']['database'] = 'db_ntrl';
+$db['default']['database'] = 'db_ntbrl';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;

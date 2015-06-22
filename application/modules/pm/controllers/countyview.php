@@ -38,20 +38,18 @@ class countyview extends MY_Controller {
     var $temp_var;
     var $r;
     var $rs;
-    var $countyname;
     var $TTC;
     var $countyID;
     var $D;
     var $errormsg;
+    var $countyId;
+    var $year;
 
     			function __construct() {
                			 parent::__construct();
 
-               			 	$this->countyId = $this->input->post('id',TRUE);
-                            //$this->countyID = $this->input->post('id',TRUE);
-               
-			                //$this->previousmonth= @date("m")- 1 ;
-			                //$this->currentyear= @date("Y");
+               			 	
+                            
 			                $this->total = $this->overall_logged();
 			                $this->mtb = $this->overall_logged();
 			                $this->notb = $this->overall_logged();
@@ -59,10 +57,9 @@ class countyview extends MY_Controller {
 
 			                
 
-
+                            $this->countyname= $this->get_countyname($this->countyId);
 
 			                $this->r= $this->get_r($this->countyId);
-			                $this->countyname= $this->get_countyname($this->countyId);
 			                $this->rs= $this->get_rs($this->countyId);
 
 
@@ -97,38 +94,21 @@ class countyview extends MY_Controller {
 
 			            }
 
-	public function index($id){
+	public function index(){
         
-		$this->countyview_(null,null,null,$id);
+		$this->countyview_();
 
 
 
 	}
-    public function _remap($id){
-        
-        $this->index($id);
-
-
-
-    }
-    public function do_session_check(){
-
-        if ($this->is_logged_in()) {
-            
-            redirect('pm/countyview');
-
-        }else{
-
-           $this->load->view('login/login');
-        }
-    }
+    
 
 	public function countyview_($mwaka=null,$mwezi=null,$filter=null,$id=null){
-        //$countyID = $this->input->get('id',TRUE);
-         if (isset($_GET['id'])) {
+        
+         // if (isset($_GET['id'])) {
                 
-                $countyId =$_GET['id'];
-            }
+         //        $countyId =$_GET['id'];
+         //    }
 
 		
 		$data['category'] = $this->session->userdata('category');
@@ -140,7 +120,8 @@ class countyview extends MY_Controller {
 
         $data['rs'] = $this->get_rs($this->countyId);
         $data['r'] = $this->get_r($this->countyId);
-        $data['countyname'] = $this->get_countyname($this->countyId);
+
+        $data['countyname'] = $this->get_countyname($this->countyID);
 
 
         $data['total'] = $this->overall_logged();   
@@ -148,7 +129,7 @@ class countyview extends MY_Controller {
         $data['neg'] = $this->overall_logged();
         $data['rif'] = $this->overall_logged();
 
-        $data['countyID'] = $countyId;
+        $data['countyID'] = $this->countyId;
         $data['title'] = $this->title;
         $data['filter'] = $this->filter;
         $data['fromfilter'] = $this->fromfilter;
@@ -158,6 +139,7 @@ class countyview extends MY_Controller {
         $data['displaymonth'] = $this->displaymonth;
         $data['currentyear'] = $this->currentyear;
         $data['currentmonth'] = $this->currentmonth;
+        $data['returnable'] = $this->header_var(); 
 
         $data['tt'] = $this->totalTestsCountyWise($this->countyID,$this->filter,$this->currentmonth,$this->currentyear,$this->fromfilter,$this->tofilter,$this->fromdate,$this->todate) ;
         $data['age'] = $this->totalTestsPerCountyByAge($this->countyID,$this->filter,$this->currentmonth,$this->currentyear,$this->fromfilter,$this->tofilter,$this->fromdate,$this->todate); 
@@ -370,40 +352,30 @@ class countyview extends MY_Controller {
 
 
 
-	public function get_countyname($countyId)
+	public function get_countyname($countyID)
 	{
 
-        $countyID = $countyId;
-
-		$countyID = $this->input->get('id');
-        $countyname = null;
+        $countyID = $this->input->get('id');
+       
+		
         
 		$query_str=" SELECT name 
 		AS cN 
 		FROM countys 
-		WHERE ID ='$countyID' "
+		WHERE id ='$countyID' "
 		;
 
 		$result = $this->db->query($query_str)->result_array();
+        
+       if ($result) {
 
-		foreach ($result as $value) {
-
-
-
-			$this->countyname=$value['cN'];
-
-
-			
-
-
-		}
-
+        $this->countyname = $result[0]['cN'];
+           
+       }
 
 		return $this->countyname;
 
-        // echo $this->countyname;
-        // die();
-
+       
 
 
 
@@ -438,14 +410,8 @@ $result = $this->db->query($query_str)->result_array();
 
 $this->rs = $result;
 
-if(($this->rs)==0)
-{
-	$this->errormsg= 'There are no tests done in ' .$this->countyname. ' County';
-}
-else{
+return $this->rs;
 
-    return $this->rs;
-}
 
 
 }

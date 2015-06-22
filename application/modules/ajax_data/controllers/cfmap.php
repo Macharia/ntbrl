@@ -28,30 +28,32 @@ class cfmap extends MY_Controller {
 
 			$CountyID = $_POST['id'];
 
-			$query_str="SELECT mfl,fname,total,mtb,neg,rif
+			$query_str="SELECT mfl,fname,total,mtb,neg,rif,ind,errs
 
 						FROM(
 						SELECT 
-								facilitys.facilitycode AS mfl,
-								facilitys.name as fname,
+						facilitys.facilitycode AS mfl,
+						facilitys.name as fname,
+						sum(CASE WHEN cond='1' THEN 1 ELSE 0 END) as total,
 
-			sum(CASE WHEN cond='1' THEN 1 ELSE 0 END) as total,
+						sum( CASE WHEN Test_Result = 'positive' THEN 1 ELSE 0 END ) AS mtb,
 
-			sum( CASE WHEN Test_Result = 'MTB DETECTED HIGH; Rif Resistance NOT DETECTED' OR Test_Result = 'MTB DETECTED LOW; Rif Resistance NOT DETECTED'OR  Test_Result = 'MTB DETECTED MEDIUM; Rif Resistance NOT DETECTED'  OR  Test_Result = 'MTB DETECTED VERY LOW; Rif Resistance NOT DETECTED'  OR  Test_Result = 'MTB DETECTED VERY LOW; Rif Resistance INDETERMINATE'  OR  Test_Result = 'MTB DETECTED HIGH; Rif Resistance DETECTED' OR  Test_Result = 'MTB DETECTED LOW; Rif Resistance DETECTED'  OR  Test_Result = 'MTB DETECTED MEDIUM; Rif Resistance DETECTED'  OR  Test_Result = 'MTB DETECTED VERY LOW; Rif Resistance DETECTED' THEN 1 ELSE 0 END ) AS mtb,
+						sum(CASE WHEN Test_Result = 'negative'  THEN 1 ELSE 0 END) as neg,
 
-			sum(CASE WHEN Test_Result = 'MTB NOT DETECTED'  THEN 1 ELSE 0 END) as neg,
+						sum( CASE WHEN mtbRif = 'positive' THEN 1 ELSE 0 END ) AS rif, 
 
-			sum( CASE WHEN Test_Result = 'MTB DETECTED HIGH; Rif Resistance DETECTED' OR Test_Result = 'MTB DETECTED LOW; Rif Resistance DETECTED'  OR  Test_Result = 'MTB DETECTED MEDIUM; Rif Resistance DETECTED'  OR  Test_Result = 'MTB DETECTED VERY LOW; Rif Resistance DETECTED'  OR  Test_Result = 'MTB DETECTED VERY LOW; Rif Resistance INDETERMINATE' THEN 1 ELSE 0 END ) AS rif  
+						sum( CASE WHEN mtbRif = 'Indeterminate' THEN 1 ELSE 0 END ) AS ind, 
 
-						FROM sample 
-						LEFT  JOIN `facilitys` ON `sample`.`facility` = `facilitys`.`ID`
+						sum( CASE WHEN Test_Result = 'ERROR' OR Test_Result = 'Invalid' THEN 1 ELSE 0 END ) AS errs 
+						FROM sample1 
+						LEFT  JOIN `facilitys` ON `sample1`.`facility` = `facilitys`.`facilitycode`
 						LEFT  JOIN `districts` ON `districts`.`ID` = `facilitys`.`district`
 						LEFT  JOIN `countys` ON `countys`.`ID` = `districts`.`county`
 
 						WHERE `countys`.`ID` ='$CountyID'
 						GROUP BY fname
 						)x";
-							
+													
 
 			$result = $this->db->query($query_str)->result_array();
 
@@ -68,6 +70,8 @@ class cfmap extends MY_Controller {
 			 <th  style="text-align:center">MTB Positive</th>
 			 <th style="text-align:center">MTB Negative</th>
 			 <th  style="text-align:center">RIF Resistant</th>
+			 <th style="text-align:center">RIF Indeterminate</th>
+			 <th  style="text-align:center">Errors / Invalid</th>
 			 </tr>';
 
 			foreach($result as $value)
@@ -81,6 +85,8 @@ class cfmap extends MY_Controller {
 				 <td style="text-align:center">'.$value['mtb'].'</td>
 				 <td style="text-align:center">'.$value['neg'].'</td>
 				 <td style="text-align:center">'.$value['rif'].'</td>
+				 <td style="text-align:center">'.$value['ind'].'</td>
+				 <td style="text-align:center">'.$value['errs'].'</td>
 				 </tr>';
 
 
